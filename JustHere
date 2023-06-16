@@ -17,6 +17,7 @@ rumah = ""
 totaldropnya = 0
 bot = getBot()
 proxyIndex = 1
+BpCek = false
 growidIndex = 1
 checknya = false
 
@@ -27,6 +28,7 @@ UseWebhook = BotList[bot:getLocal().name:upper()].UseWebhook
 WorldSavePackID = BotList[bot:getLocal().name:upper()].WorldSavePackID
 WorldSavePack = BotList[bot:getLocal().name:upper()].WorldSavePack
 seedid = BotList[bot:getLocal().name:upper()].seedid
+UpBp = BotList[bot:getLocal().name:upper()].UpBp
 WorldSaveSeed = BotList[bot:getLocal().name:upper()].WorldSaveSeed
 WorldSaveSeedID = BotList[bot:getLocal().name:upper()].WorldSaveSeedID
 WorldList = BotList[bot:getLocal().name:upper()].WorldList
@@ -165,6 +167,16 @@ x = httpReq(RequestINFO)
 if x.success then
 end
 return x.body
+end
+
+function cekbp()
+if not BpCek then
+for i=0,UpBp do
+getBot():sendPacket("action|buy\nitem|upgrade_backpack",2)
+sleep(3000)
+end
+BpCek = true
+end
 end
 
 function botshow(Info)
@@ -717,6 +729,7 @@ for _,rah in pairs(getBot():getObjects()) do
       end
 
 function plant()
+cekbp()
 coptrashs()
 botshow("Planting")
 for _, tile in pairs(getBot():getTiles()) do
