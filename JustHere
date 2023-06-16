@@ -1160,7 +1160,7 @@ function belicuy()
     warp(WorldSavePack,WorldSavePackID)
     while getBot():getLocal().gems > packgems do
             getBot():sendPacket("action|buy\nitem|".. itemname,2)
-            sleep(4000)
+            sleep(5000)
             gemssave = gemssave + packgems
             totalpack = totalpack + 1
         if getBot():getItemCount(packitemid[1]) < 1 then
