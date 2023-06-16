@@ -1083,7 +1083,7 @@ function savecuy()
                 while flag do
                     getBot():sendPacket("action|drop\n|itemID|"..E, 2)
                     getBot():sendPacket("action|dialog_return\ndialog_name|drop_item\nitemID|"..E.."|\ncount|"..countpack, 2)
-                    sleep(2000)
+                    sleep(3300)
                     reconnectpack(atas,tile.x,tile.y)
                     if getBot():getItemCount(E) > 0 then
                         getBot():move(RIGHT,1)
