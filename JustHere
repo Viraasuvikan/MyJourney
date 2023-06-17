@@ -617,12 +617,38 @@ startwoi()
   end
 end
 
+function backpos(x,y)
+werkd = getBot():getWorld().name
+    for _, tile in pairs(getBot():getTiles()) do
+        if tile.fg == 6 then
+            getBot():sendPacket("action|join_request\nname|".. werkd .. "|" .. wid:upper().."\ninvitedWorld|0",3)
+            sleep(1000)
+            if x and y and getBot():getBotStatus() == Success and getBot():getWorld().name:upper() == werkd:upper() then
+                repeat
+                    getBot():findPath(x,y)
+                    sleep(100)
+                until math.floor(getBot():getLocal().pos.x / 32) == x or math.floor(getBot():getLocal().pos.y / 32) == y
+            end
+            if getBot():getBotStatus() == Success and getBot():getWorld().name:upper() == werkd:upper() then
+                if x and y then
+                    if getBot():getBotStatus() == Success and math.floor(getBot():getLocal().pos.x / 32) == x and math.floor(getBot():getLocal().pos.y / 32) == y then
+                        break
+                    end
+                elseif getBot():getBotStatus() == Success then
+                    break
+                end
+            end
+        end
+    end
+end
+
 function reconnect(x,y)
 atas = getBot():getWorld().name
 if getBot():getBotStatus() == Success and getBot():getWorld().name:upper() == "EXIT" then
-TagBan("**"..getBot():getLocal().name:upper().." In EXIT, Now Back To Farm In @everyone **")
+TagBan("**"..getBot():getLocal().name:upper().." In EXIT, Now Back To Farm In "..rumah.." @everyone **")
 sleep(5000)
 warp(rumah,wid:upper())
+backpos(x,y)
 jalan()
 end
 if getBot():getEnetStatus() ~= Connected then
@@ -643,6 +669,7 @@ if getBot():getBotStatus() == Success and getBot():getEnetStatus () == Connected
 TagBan("**"..getBot():getLocal().name:upper().." Was "..status().." Now Back To Farm.. @everyone **")
 sleep(5000)
 warp(rumah,wid:upper())
+backpos(x,y)
 jalan()
 end
 end
@@ -1017,7 +1044,7 @@ TagBan("**"..getBot():getLocal().name:upper().." In EXIT, Now Back Saving "..pac
 sleep(5000)
 warp(world,WorldSavePackID)
 sleep(500)
-getBot():findPath(x,y)
+backpos(x,y)
 end
 if getBot():getEnetStatus() ~= Connected then
 TagBan("**"..getBot():getLocal().name:upper().." Was "..status().." Reconnecting... @everyone **")
@@ -1036,7 +1063,7 @@ TagBan("**"..getBot():getLocal().name:upper().." Was "..status().." Now Back To 
 sleep(5000)
 warp(world,WorldSavePackID)
 sleep(500)
-getBot():findPath(x,y)
+backpos(x,y)
 end
 end
 end
@@ -1047,7 +1074,7 @@ TagBan("**"..getBot():getLocal().name:upper().." In EXIT, Now Back Saving Seed I
 sleep(5000)
 warp(world,WorldSaveSeedID)
 sleep(500)
-getBot():findPath(x,y)
+backpos(x,y)
 end
 if getBot():getEnetStatus() ~= Connected then
 TagBan("**"..getBot():getLocal().name:upper().." Was "..status().." Reconnecting... @everyone **")
@@ -1066,7 +1093,7 @@ TagBan("**"..getBot():getLocal().name:upper().." Was "..status().." Now Back To 
 sleep(5000)
 warp(world,WorldSaveSeedID)
 sleep(500)
-getBot():findPath(x,y)
+backpos(x,y)
 end
 end
 end
@@ -1083,7 +1110,7 @@ function savecuy()
                 while flag do
                     getBot():sendPacket("action|drop\n|itemID|"..E, 2)
                     getBot():sendPacket("action|dialog_return\ndialog_name|drop_item\nitemID|"..E.."|\ncount|"..countpack, 2)
-                    sleep(3300)
+                    sleep(1000)
                     reconnectpack(atas,tile.x,tile.y)
                     if getBot():getItemCount(E) > 0 then
                         getBot():move(RIGHT,1)
@@ -1133,23 +1160,26 @@ atas = getBot():getWorld().name
         if tile.fg == IDPatokanSeed or tile.bg == IDPatokanSeed then
                getBot():findPath(tile.x - 1,tile.y)
                     sleep(500) 
-                  while getBot():getItemCount(seedid) > 101 do
+                  local flag = true
+                  while flag do
                     getBot():sendPacket("action|drop\n|itemID|"..seedid,2)
                     getBot():sendPacket("action|dialog_return\ndialog_name|drop_item\nitemID|"..seedid.."|\ncount|100",2)
-                    sleep(500)  
+                    sleep(1000)  
                     reconnectseed(atas,tile.x,tile.y) 
+                    if getBot():getItemCount(seedid) > 101 then
                     getBot():move(RIGHT,1)
+                    else
+                    flag = false
                 end
             end
-            if getBot():getItemCount(seedid) < 100 then
-                break
-            end
         end
-  
+     end
     sampah()
     seeddrop = SeedsScanner(seedid)
     botshow("Success Saving Seeds")
+    sleep(500)
     warp(waras,wid:upper())
+    backpos(x,y)
 end
 
 function belicuy()
