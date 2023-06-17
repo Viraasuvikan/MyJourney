@@ -521,30 +521,6 @@ end
 end
 end
 
-function backpos(x,y)
-werkd = getBot():getWorld().name
-    for _, tile in pairs(getBot():getTiles()) do
-        if tile.fg == 6 then
-            getBot():sendPacket("action|join_request\nname|".. werkd .. "|" .. wid:upper() .."\ninvitedWorld|0",3)
-            sleep(1000)
-            if x and y and getBot():getBotStatus() == Success and getBot():getWorld().name == werkd:upper() then
-                repeat
-                    getBot():findPath(x,y)
-                    sleep(100)
-                until math.floor(getBot():getLocal().pos.x / 32) == x or math.floor(getBot():getLocal().pos.y / 32) == y
-            end
-            if getBot():getBotStatus() == Success and getBot():getWorld().name == werkd:upper() then
-                if x and y then
-                    if getBot():getBotStatus() == Success and math.floor(getBot():getLocal().pos.x / 32) == x and math.floor(getBot():getLocal().pos.y / 32) == y then
-                        break
-                    end
-                elseif getBot():getBotStatus() == Success then
-                    break
-                end
-            end
-        end
-    end
-end
 
 function addnyaproxy()
 while true do
@@ -618,7 +594,7 @@ startwoi()
 end
 
 function backpos(x,y)
-werkd = getBot():getWorld().name
+werkd = rumah
     for _, tile in pairs(getBot():getTiles()) do
         if tile.fg == 6 then
             getBot():sendPacket("action|join_request\nname|".. werkd .. "|" .. wid:upper().."\ninvitedWorld|0",3)
@@ -665,7 +641,7 @@ if getBot():getBotStatus() == Banned then
 TagBan("**"..getBot():getLocal().name:upper().." Was "..status().." Removing Bot... @everyone**")
 banned()
 end
-if getBot():getBotStatus() == Success and getBot():getEnetStatus () == Connected then
+if getBot():getBotStatus() == Success and getBot():getEnetStatus() == Connected then
 TagBan("**"..getBot():getLocal().name:upper().." Was "..status().." Now Back To Farm.. @everyone **")
 sleep(5000)
 warp(rumah,wid:upper())
@@ -1038,13 +1014,63 @@ end
 checknya = true
 end
 
+function backpospack(worldnya,x,y)
+werkd = worldnya
+    for _, tile in pairs(getBot():getTiles()) do
+        if tile.fg == 6 then
+            getBot():sendPacket("action|join_request\nname|".. werkd .. "|" .. WorldSavePackID.."\ninvitedWorld|0",3)
+            sleep(1000)
+            if x and y and getBot():getBotStatus() == Success and getBot():getWorld().name:upper() == werkd:upper() then
+                repeat
+                    getBot():findPath(x,y)
+                    sleep(100)
+                until math.floor(getBot():getLocal().pos.x / 32) == x or math.floor(getBot():getLocal().pos.y / 32) == y
+            end
+            if getBot():getBotStatus() == Success and getBot():getWorld().name:upper() == werkd:upper() then
+                if x and y then
+                    if getBot():getBotStatus() == Success and math.floor(getBot():getLocal().pos.x / 32) == x and math.floor(getBot():getLocal().pos.y / 32) == y then
+                        break
+                    end
+                elseif getBot():getBotStatus() == Success then
+                    break
+                end
+            end
+        end
+    end
+end
+
+function backposseed(worldnya,x,y)
+werkd = worldnya
+    for _, tile in pairs(getBot():getTiles()) do
+        if tile.fg == 6 then
+            getBot():sendPacket("action|join_request\nname|".. werkd .. "|" .. WorldSaveSeedID.."\ninvitedWorld|0",3)
+            sleep(1000)
+            if x and y and getBot():getBotStatus() == Success and getBot():getWorld().name:upper() == werkd:upper() then
+                repeat
+                    getBot():findPath(x,y)
+                    sleep(100)
+                until math.floor(getBot():getLocal().pos.x / 32) == x or math.floor(getBot():getLocal().pos.y / 32) == y
+            end
+            if getBot():getBotStatus() == Success and getBot():getWorld().name:upper() == werkd:upper() then
+                if x and y then
+                    if getBot():getBotStatus() == Success and math.floor(getBot():getLocal().pos.x / 32) == x and math.floor(getBot():getLocal().pos.y / 32) == y then
+                        break
+                    end
+                elseif getBot():getBotStatus() == Success then
+                    break
+                end
+            end
+        end
+    end
+end
+
 function reconnectpack(world,x,y)
 if getBot():getBotStatus() == Success and getBot():getWorld().name:upper() == "EXIT" then
 TagBan("**"..getBot():getLocal().name:upper().." In EXIT, Now Back Saving "..pack.." In "..world.." @everyone **")
 sleep(5000)
 warp(world,WorldSavePackID)
 sleep(500)
-backpos(x,y)
+backpospack(world,x,y)
 end
 if getBot():getEnetStatus() ~= Connected then
 TagBan("**"..getBot():getLocal().name:upper().." Was "..status().." Reconnecting... @everyone **")
@@ -1058,12 +1084,12 @@ banned()
 elseif getBot():getBotStatus() == Banned then
 TagBan("**"..getBot():getLocal().name:upper().." Was "..status().." Removing Bot... @everyone**")
 banned()
-elseif getBot():getBotStatus() == Success and getBot():getEnetStatus () == Connected then
+elseif getBot():getBotStatus() == Success and getBot():getEnetStatus() == Connected then
 TagBan("**"..getBot():getLocal().name:upper().." Was "..status().." Now Back To Saving "..pack.." In "..world.." @everyone **")
 sleep(5000)
 warp(world,WorldSavePackID)
 sleep(500)
-backpos(x,y)
+backpospack(world,x,y)
 end
 end
 end
@@ -1074,7 +1100,7 @@ TagBan("**"..getBot():getLocal().name:upper().." In EXIT, Now Back Saving Seed I
 sleep(5000)
 warp(world,WorldSaveSeedID)
 sleep(500)
-backpos(x,y)
+backposseed(world,x,y)
 end
 if getBot():getEnetStatus() ~= Connected then
 TagBan("**"..getBot():getLocal().name:upper().." Was "..status().." Reconnecting... @everyone **")
@@ -1088,12 +1114,12 @@ banned()
 elseif getBot():getBotStatus() == Banned then
 TagBan("**"..getBot():getLocal().name:upper().." Was "..status().." Removing Bot... @everyone**")
 banned()
-elseif getBot():getBotStatus() == Success and getBot():getEnetStatus () == Connected then
+elseif getBot():getBotStatus() == Success and getBot():getEnetStatus() == Connected then
 TagBan("**"..getBot():getLocal().name:upper().." Was "..status().." Now Back To Saving Seeds In "..world.." @everyone **")
 sleep(5000)
 warp(world,WorldSaveSeedID)
 sleep(500)
-backpos(x,y)
+backposseed(world,x,y)
 end
 end
 end
