@@ -171,7 +171,7 @@ end
 
 function cekbp()
 if not BpCek then
-for i=0,UpBp do
+for i=1,UpBp do
 getBot():sendPacket("action|buy\nitem|upgrade_backpack",2)
 sleep(3000)
 end
@@ -268,48 +268,13 @@ te = os.time() - t
                 inline = "false"
             }
             @{
-               name = "**(======= Pack Info =======)**"
-              value = " _ _"
-              inline = "false"
-            }
-            @{
-                name = "**<:shop_sign:1012590603172847648>  Pack Name **"
-                value = "**]]..pack..[[**"
-                inline = "true"
-            }
-            @{
-                name = "**<:small_seed_pack:1087076784585068584>  Total Pack**"
-                value = "**]]..totalpack..[[**"
-                inline = "true"
-            }
-            @{
-                name = "**<:paperseedbs:1063061801601871932>  Total Seed**"
-                value = "**]]..seeddrop..[[**"
-                inline = "true"
-            }
-            @{
-               name = "_ _"
-              value = " _ _"
-              inline = "false"
-            }
-            @{
                 name = "**<:growtopia_clock:1011929976628596746>  Bot Up Time**"
                 value = "**]]..math.floor(te/86400)..[[ Days ]]..math.floor(te%86400/3600)..[[ Hours ]]..math.floor(te%86400%3600/60)..[[ Minutes**"
                 inline = "false"
             }
-            @{
-               name = "_ _"
-              value = " _ _"
-              inline = "false"
-            }
-            @{
-               name = "**<:Momiji_Ohayou:1114839599634722936> Total Buyer **"
-              value = "**]]..cekbuyer()..[[**"
-              inline = "false"
-            }    
         )
         $embedObject = @{
-            title = "**<:HuTao_Yawn:825316612927127574> Jopy Rotation V1.0 ( Surfer ) <:HuTao_Yawn:825316612927127574>**"
+            title = "**<:HuTao_Yawn:825316612927127574> Jopy Rotation V1.0 ( Surfer ) <:HuTao_Yawn:825316612927127574> ( ]]..cekbuyer()..[[ Buyers )**"
             color = "]]..math.random(111111,999999)..[["
             thumbnail = $thumbnailObject
             footer = $footerObject
@@ -326,6 +291,64 @@ te = os.time() - t
     file:write(text)
     file:close()
 end
+end
+
+function botpack(Kata)
+            te = os.time() - t
+    local text = [[
+        $webHookUrl = "]]..WhPackAndSeed..[[/messages/]]..MessageIDPack..[["
+        $CPU = Get-WmiObject Win32_Processor | Measure-Object -Property LoadPercentage -Average | Select -ExpandProperty Average
+        $RAM = [math]::Round($Memory, 0)
+        $thumbnailObject = @{
+            url = "https://share.creavite.co/9ugoY1REemeb0nVZ.gif"
+        }
+        $footerObject = @{
+            text = "]]..(os.date("!%a %b %d, %Y | %I:%M %p", os.time() + 7 * 60 * 60))..[["
+        }
+        $fieldArray = @(
+            @{
+                name = "<:mega:981220331572326471>  Bot Info "
+                value = "**]]..Kata..[[**"
+                inline = "false"
+            }
+            @{
+                name = "**<:bot:1049606018008612874>  Bot Name** "
+                value = "**]]..getBot():getLocal().name:upper()..[[ ( ]]..getBot():getLocal().level..[[ )**"
+                inline = "false"
+            }
+            @{
+                name = "<:shop_sign:1012590603172847648>  Pack Name "
+                value = "**]]..pack..[[**"
+                inline = "true"
+            }
+            @{
+                name = "<:small_seed_pack:1098848345956560997>  Total Pack"
+                value = "**]]..totalpack..[[**"
+                inline = "true"
+            }
+            @{
+                name = "<:paperseedbs:1063061801601871932>  Total Seed"
+                value = "]]..seeddrop..[["
+                inline = "true"
+            }
+        )
+        $embedObject = @{
+            title = "**Jopy Rotation V1.0 ( ]]..cekbuyer()..[[ Buyers )**"
+            color = "]]..math.random(111111,999999)..[["
+            thumbnail = $thumbnailObject
+            footer = $footerObject
+            fields = $fieldArray
+        }
+        $embedArray = @($embedObject)
+        $payload = @{
+            embeds = $embedArray
+        }
+        [Net.ServicePointManager]::SecurityProtocol = [Net.SecurityProtocolType]::Tls12
+        Invoke-RestMethod -Uri $webHookUrl -Body ($payload | ConvertTo-Json -Depth 4) -Method Patch -ContentType 'application/json'
+    ]]
+    local file = io.popen("powershell -command -", "w")
+    file:write(text)
+    file:close()
 end
 
 function soilmode()
@@ -618,9 +641,19 @@ werkd = rumah
     end
 end
 
+function enetStatus()
+    if getBot():getEnetStatus() == Disconnected then
+        return string.upper("Offline")
+    elseif getBot():getEnetStatus() == Connected then
+        return string.upper("Online")
+    elseif getBot():getBotStatus() == ShadowBan then
+        return string.upper("Shadow Ban")
+    end
+end
+
 function reconnect(x,y)
 atas = getBot():getWorld().name
-if getBot():getBotStatus() == Success and getBot():getWorld().name:upper() == "EXIT" then
+if getBot():getEnetStatus() == Connected and getBot():getWorld().name:upper() == "EXIT" then
 TagBan("**"..getBot():getLocal().name:upper().." In EXIT, Now Back To Farm In "..rumah.." @everyone **")
 sleep(5000)
 warp(rumah,wid:upper())
@@ -628,7 +661,7 @@ backpos(x,y)
 jalan()
 end
 if getBot():getEnetStatus() ~= Connected then
-TagBan("**"..getBot():getLocal().name:upper().." Was "..status().." Reconnecting... @everyone **")
+TagBan("**"..getBot():getLocal().name:upper().." Was "..enetStatus().." Reconnecting... @everyone **")
 repeat
 getBot():reConnect()
 sleep(8000)
@@ -642,7 +675,7 @@ TagBan("**"..getBot():getLocal().name:upper().." Was "..status().." Removing Bot
 banned()
 end
 if getBot():getBotStatus() == Success and getBot():getEnetStatus() == Connected then
-TagBan("**"..getBot():getLocal().name:upper().." Was "..status().." Now Back To Farm.. @everyone **")
+TagBan("**"..getBot():getLocal().name:upper().." Was "..enetStatus().." Now Back To Farm.. @everyone **")
 sleep(5000)
 warp(rumah,wid:upper())
 backpos(x,y)
@@ -1134,12 +1167,12 @@ function savecuy()
                 sleep(300)
                 local flag = true
                 while flag do
+                    if getBot():getItemCount(E) ~= 0 then
                     getBot():sendPacket("action|drop\n|itemID|"..E, 2)
                     getBot():sendPacket("action|dialog_return\ndialog_name|drop_item\nitemID|"..E.."|\ncount|"..countpack, 2)
                     sleep(1000)
                     reconnectpack(atas,tile.x,tile.y)
-                    if getBot():getItemCount(E) > 0 then
-                        getBot():move(RIGHT,1)
+                    getBot():findPath(tile.x - 1, tile.y)
                     else
                         flag = false
                     end
@@ -1151,11 +1184,11 @@ function savecuy()
 end
 
 function sampah()
-getBot():move(UP,1)
 if next(CustomItem) ~= nil then
+getBot():move(UP,1)
 for _, sampah in pairs(CustomItem) do
 royal = getBot():getItemCount(sampah)
-    while getBot():getItemCount(sampah) > 0 do
+    while getBot():getItemCount(sampah) ~= 0 do
     getBot():sendPacket("action|drop\nitemID|" .. sampah,2)
     getBot():sendPacket("action|dialog_return\ndialog_name|drop_item\nitemID|" .. seedid .. "|\ncount|" ..royal,2)
     sleep(500)
@@ -1178,45 +1211,48 @@ return kiwar
 end
 
 function saveseed()
-botshow("Saving Seeds")
-atas = getBot():getWorld().name
-        getBot():autoCollect(4,false)
-        warp(WorldSaveSeed,WorldSaveSeedID)
-    for _,tile in pairs(getBot():getTiles()) do
+    botpack("Saving Seeds")
+    atas = getBot():getWorld().name
+    getBot():autoCollect(4, false)
+    warp(WorldSaveSeed, WorldSaveSeedID)
+    
+    for _, tile in pairs(getBot():getTiles()) do
         if tile.fg == IDPatokanSeed or tile.bg == IDPatokanSeed then
-               getBot():findPath(tile.x - 1,tile.y)
-                    sleep(500) 
-                  local flag = true
-                  while flag do
-                    getBot():sendPacket("action|drop\n|itemID|"..seedid,2)
-                    getBot():sendPacket("action|dialog_return\ndialog_name|drop_item\nitemID|"..seedid.."|\ncount|100",2)
-                    sleep(1000)  
-                    reconnectseed(atas,tile.x,tile.y) 
-                    if getBot():getItemCount(seedid) > 101 then
-                    getBot():move(RIGHT,1)
-                    else
-                    flag = false
+           getBot():findPath(tile.x - 1, tile.y)
+            local flag = true
+            while flag do
+                if getBot():getItemCount(seedid) > 100 then
+                    getBot():sendPacket("action|drop\n|itemID|" .. seedid, 2)
+                    getBot():sendPacket("action|dialog_return\ndialog_name|drop_item\nitemID|" .. seedid .. "|\ncount|100", 2)
+                    sleep(1000)
+                    reconnectseed(atas, tile.x, tile.y)
+                    getBot():findPath(tile.x - 1, tile.y)
+                else
+                    flag = false 
                 end
             end
         end
-     end
+    end
+    
     sampah()
     seeddrop = SeedsScanner(seedid)
-    botshow("Success Saving Seeds")
+    botpack("Success Saving Seeds")
     sleep(500)
-    warp(waras,wid:upper())
-    backpos(x,y)
+    warp(waras, wid:upper())
+    backpos(posX - 1, posY - 1)
 end
+
+
 
 function belicuy()
   woloy = getBot():getWorld().name
     sleep(1800)
     getBot():autoCollect(4,false)
-    botshow("Buying Pack..")
+    botpack("Buying Pack..")
     warp(WorldSavePack,WorldSavePackID)
     while getBot():getLocal().gems > packgems do
             getBot():sendPacket("action|buy\nitem|".. itemname,2)
-            sleep(5000)
+            sleep(4000)
             gemssave = gemssave + packgems
             totalpack = totalpack + 1
         if getBot():getItemCount(packitemid[1]) < 1 then
@@ -1229,8 +1265,9 @@ function belicuy()
       end
  end
         savecuy()
-        botshow("Done Droping Pack, Back To Farm...")
+        botpack("Done Droping Pack, Back To Farm...")
     warp(woloy,wid:upper())
+   backpos(posX-1,posY-1)
 end
 
 function anjay()
