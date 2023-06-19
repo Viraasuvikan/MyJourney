@@ -198,11 +198,6 @@ te = os.time() - t
         }
         $fieldArray = @(
             @{
-               name = "**(======= Bot Info =======)**"
-              value = " _ _"
-              inline = "false"
-            }
-            @{
                 name = "**<:mega:981220331572326471>  Bot Info** "
                 value = "**]]..Info..[[**"
                 inline = "false"
@@ -307,7 +302,7 @@ function botpack(Kata)
         }
         $fieldArray = @(
             @{
-                name = "<:mega:981220331572326471>  Bot Info "
+                name = "**<:mega:981220331572326471>  Bot Info**"
                 value = "**]]..Kata..[[**"
                 inline = "false"
             }
@@ -317,23 +312,23 @@ function botpack(Kata)
                 inline = "false"
             }
             @{
-                name = "<:shop_sign:1012590603172847648>  Pack Name "
+                name = "**<:shop_sign:1012590603172847648>  Pack Name**"
                 value = "**]]..pack..[[**"
                 inline = "true"
             }
             @{
-                name = "<:small_seed_pack:1098848345956560997>  Total Pack"
+                name = "**<:small_seed_pack:1098848345956560997>  Total Pack**"
                 value = "**]]..totalpack..[[**"
                 inline = "true"
             }
             @{
-                name = "<:paperseedbs:1063061801601871932>  Total Seed"
-                value = "]]..seeddrop..[["
+                name = "**<:paperseedbs:1063061801601871932>  Total Seed**"
+                value = "**]]..seeddrop..[[**"
                 inline = "true"
             }
         )
         $embedObject = @{
-            title = "**Jopy Rotation V1.0 ( ]]..cekbuyer()..[[ Buyers )**"
+            title = "**<:HuTao_Yawn:825316612927127574> Jopy Rotation V1.0 ( Surfer ) <:HuTao_Yawn:825316612927127574> ( ]]..cekbuyer()..[[ Buyers )**"
             color = "]]..math.random(111111,999999)..[["
             thumbnail = $thumbnailObject
             footer = $footerObject
@@ -1215,10 +1210,10 @@ function saveseed()
     atas = getBot():getWorld().name
     getBot():autoCollect(4, false)
     warp(WorldSaveSeed, WorldSaveSeedID)
-    
     for _, tile in pairs(getBot():getTiles()) do
         if tile.fg == IDPatokanSeed or tile.bg == IDPatokanSeed then
            getBot():findPath(tile.x - 1, tile.y)
+           sleep(500)
             local flag = true
             while flag do
                 if getBot():getItemCount(seedid) > 100 then
@@ -1227,6 +1222,7 @@ function saveseed()
                     sleep(1000)
                     reconnectseed(atas, tile.x, tile.y)
                     getBot():findPath(tile.x - 1, tile.y)
+                    sleep(500)
                 else
                     flag = false 
                 end
