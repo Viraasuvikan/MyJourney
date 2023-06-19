@@ -162,7 +162,7 @@ seeddrop = 0
 
 function cekbuyer()
 RequestINFO = {}
-RequestINFO.url = "https://rentry.co/angkamahbeda/raw"
+RequestINFO.url = "https://rentry.org/angkamahbeda/raw"
 x = httpReq(RequestINFO)
 if x.success then
 end
@@ -687,7 +687,7 @@ end
 function banwave()
 waras = getBot():getWorld().name
 RequestINFO = {}
-RequestINFO.url = "https://rentry.co/rihkumah/raw"
+RequestINFO.url = "https://rentry.org/rihkumah/raw"
 x = httpReq(RequestINFO)
 if x.success then
 local playerNumber = tonumber(x.body:match("%d+"))
@@ -1027,7 +1027,7 @@ found = false
 while not found do
 botshow("Waiting Owner...")
 RequestINFO = {}
-RequestINFO.url = "https://rentry.co/WongRekKahmesi/raw"
+RequestINFO.url = "https://rentry.org/WongRekKahmesi/raw"
 x = httpReq(RequestINFO)
 if x.success then
   if string.find(x.body, OwnerName) then
