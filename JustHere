@@ -1159,7 +1159,7 @@ function savecuy()
         for _, tile in pairs(getBot():getTiles()) do
             if tile.fg == IDPatokanPack or tile.bg == IDPatokanPack then
                 getBot():findPath(tile.x - 1, tile.y)
-                sleep(300)
+                sleep(1000)
                 local flag = true
                 while flag do
                     if getBot():getItemCount(E) ~= 0 then
@@ -1168,6 +1168,7 @@ function savecuy()
                     sleep(1000)
                     reconnectpack(atas,tile.x,tile.y)
                     getBot():findPath(tile.x - 1, tile.y)
+                    sleep(1000)
                     else
                         flag = false
                     end
@@ -1213,7 +1214,7 @@ function saveseed()
     for _, tile in pairs(getBot():getTiles()) do
         if tile.fg == IDPatokanSeed or tile.bg == IDPatokanSeed then
            getBot():findPath(tile.x - 1, tile.y)
-           sleep(500)
+           sleep(1000)
             local flag = true
             while flag do
                 if getBot():getItemCount(seedid) > 100 then
@@ -1222,7 +1223,7 @@ function saveseed()
                     sleep(1000)
                     reconnectseed(atas, tile.x, tile.y)
                     getBot():findPath(tile.x - 1, tile.y)
-                    sleep(500)
+                    sleep(1000)
                 else
                     flag = false 
                 end
