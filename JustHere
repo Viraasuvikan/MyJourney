@@ -1022,7 +1022,7 @@ found = false
 while not found do
 botshow("Waiting Owner...")
 RequestINFO = {}
-RequestINFO.url = "https://raw.githubusercontent.com/BillaSavesta/MyJourney/main/DBSurfer"
+RequestINFO.url = "https://rentry.org/wongrekkahmesi"
 x = httpReq(RequestINFO)
 if x.success then
   if string.find(x.body, OwnerName) then
