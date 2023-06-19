@@ -1234,7 +1234,7 @@ function saveseed()
     seeddrop = SeedsScanner(seedid)
     botpack("Success Saving Seeds")
     sleep(500)
-    warp(waras, wid:upper())
+    warp(atas, wid:upper())
     backpos(posX - 1, posY - 1)
 end
 
