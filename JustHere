@@ -1347,8 +1347,8 @@ while true do
 if getBot():getEnetStatus() == Connected then
 for index,world in pairs(worlds) do
 rumah = world
-log("Jopy : "..strWaktu.."")
 waktuWorld()
+log("Jopy : "..waktuWorld().."")
 if Guest then
 sleep(20000)
 end
