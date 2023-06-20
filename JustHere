@@ -1,3 +1,5 @@
+--===JOPY STORE===--
+
 berlian = {}
 pohon = {}
 waktu = {}
@@ -64,9 +66,9 @@ end
 function waktuWorld()
     strWaktu = ""
         for _,world in pairs(WorldList) do
-strWaktu = strWaktu .. "\n" .. world:upper() .. " ( " .. ("<:pro_timeout:1100160755287982150> : " .. (waktu[world] or "?")) .. " | " .. ":palm_tree: : " .. (pohon[world] or "0") .. " | " .. "<:gems:994218103032520724> : " .. (berlian[world] or "0") .. " )"
+strWaktu = strWaktu .."\n" .. world:upper()  .. " ( " .. ("<:pro_timeout:1100160755287982150> " .. (waktu[world] or "?")) .. " | " .. ":palm_tree: : " .. (pohon[world] or "0") .. " | " .. ":gem: : " .. (berlian[world] or "0") .. " )"
     end
-   return strWaktu
+return strWaktu
 end
 
    function Fossil()
@@ -259,7 +261,7 @@ te = os.time() - t
             }
             @{
                 name = "**<:Scroll:1083965766187110460> World List**"
-                value = "**]]..strWaktu..[[**"
+                value = "**]]..waktuWorld()..[[**"
                 inline = "false"
             }
             @{
@@ -1348,7 +1350,6 @@ if getBot():getEnetStatus() == Connected then
 for index,world in pairs(worlds) do
 rumah = world
 waktuWorld()
-log("Jopy : "..waktuWorld().."")
 if Guest then
 sleep(20000)
 end
