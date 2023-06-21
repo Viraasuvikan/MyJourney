@@ -491,14 +491,15 @@ botshow("Bot Done Rest, Starting Back...")
 if getBot():getBotStatus() ~= Success then
 repeat
 getBot():reConnect()
-sleep(8000)
+sleep(10000)
 until getBot():getBotStatus() == Success
+end
 if getBot():getBotStatus() == Success then
 warp(rumah,wid:upper())
+backpos(posX-1,posY-1)
 jalan()
 table.remove(TimeMinutes, i)
 break
-end
 end
 else
 return
@@ -804,9 +805,9 @@ end
 
 function warp(world,id)
 getBot():sendPacket("action|join_request\nname|"..world.."|"..id.."\ninvitedWorld|0",3)
-sleep(4000)
+sleep(6000)
 getBot():sendPacket("action|join_request\nname|"..world.."|"..id.."\ninvitedWorld|0",3)
-sleep(4000)
+sleep(6000)
 end
 
 function joinid(world,id)
@@ -829,7 +830,7 @@ function warpfarm(world, id)
             joinid(world,id)
         end
         
-        if ruok == 10 then
+        if ruok == 25 then
             nuked = true
            return
         end
