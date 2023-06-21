@@ -869,7 +869,6 @@ botshow("Take Pick")
 waras = getBot():getWorld().name
     getBot():autoCollect(4,false)
 warp(WorldPick,WorldPickID)
-sleep(2000)
 if scanFloat(98) == 0 then
 sleep(15000)
 end
