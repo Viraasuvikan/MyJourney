@@ -483,11 +483,23 @@ local minutes = math.floor(te%86400%3600/60)
 
 for i, curah in pairs(TimeMinutes) do
 if minutes >= curah then
+getBot():disconnect()
 botshow("Bot Rest.. For "..SleepRest.." Minutes")
 sleep(SleepRest * 60 * 1000)
+getBot():reConnect()
 botshow("Bot Done Rest, Starting Back...")
+if getBot():getBotStatus() ~= Success then
+repeat
+getBot():reConnect()
+sleep(8000)
+until getBot():getBotStatus() == Success
+if getBot():getBotStatus() == Success then
+warp(rumah,wid:upper())
+jalan()
 table.remove(TimeMinutes, i)
 break
+end
+end
 else
 return
 end
