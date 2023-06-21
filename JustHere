@@ -851,6 +851,16 @@ sleep(1000)
 end
 end 
 
+function scanFloat(id)
+    local count = 0
+    for _, obj in pairs(bot:getObjects()) do
+        if obj.id == id then
+            count = count + obj.count
+        end
+    end
+    return count
+end
+
 function takepick()
 if TakePick then
 if getBot():getItemCount(98) == 0 then
@@ -859,6 +869,12 @@ waras = getBot():getWorld().name
     getBot():autoCollect(4,false)
 warp(WorldPick,WorldPickID)
 sleep(2000)
+if scanFloat(98) == 0 then
+sleep(15000)
+end
+if scanFloat(98) == 0 then
+return
+else
 collectobjectnya(98)
 sleep(3000)
 if getBot():getItemCount(98) > 0 then
@@ -876,6 +892,7 @@ getBot():sendPacketRaw(packet)
 sleep(1000)
 warp(waras,wid:upper())
 sleep(5000)
+end
 end
 end
 end
