@@ -22,6 +22,8 @@ bot = getBot()
 proxyIndex = 1
 BpCek = false
 growidIndex = 1
+emoji = ""
+loopnya = 0
 checknya = false
 
 PassBotList = BotList[bot:getLocal().name:upper()].PassBotList
@@ -113,7 +115,19 @@ end
 return unreadytree
 end
 
-
+function cekemoji()
+if seedid == 4586 then
+return "<:paperseedbs:1063061801601871932>"
+elseif seedid == 5667 then
+return "<:lgrid_seed:1091612884758437959>"
+elseif seedid == 3005 then
+return "<:fish_tank_seed:1012563310308233327>"
+elseif seedid == 8641 then
+return "<:Fence_seed:1121360619887661056>"
+else
+return  "<:paperseedbs:1063061801601871932>"
+end
+end
 
 function status()
     if getBot():getBotStatus() == Success then
@@ -221,12 +235,12 @@ te = os.time() - t
                 inline = "true"
             }
             @{ 
-                name = "**<:paperseedbs:1063061801601871932>  Ready Tree **"
+                name = "**]]..emoji..[[  Ready Tree **"
                 value = "**]]..tre()..[[**"
                 inline = "true"
             }
             @{ 
-                name = "**<:paperseedbs:1063061801601871932>  UnReady Tree **"
+                name = "**]]..emoji..[[  UnReady Tree **"
                 value = "**]]..un()..[[**"
                 inline = "true"
             }   
@@ -258,6 +272,11 @@ te = os.time() - t
             @{
                 name = "**<a:rgbload:993270101262475304>  Progress World**"
                 value = "**]]..start..[[ / ]]..stop..[[**"
+                inline = "true"
+            }
+            @{
+                name = "**<:loop:1086978455171772467> Loop**"
+                value = "**]]..loopnya..[[**"
                 inline = "true"
             }
             @{
@@ -325,7 +344,7 @@ function botpack(Kata)
                 inline = "true"
             }
             @{
-                name = "**<:paperseedbs:1063061801601871932>  Total Seed**"
+                name = "**]]..emoji..[[  Total Seed**"
                 value = "**]]..seeddrop..[[**"
                 inline = "true"
             }
@@ -407,30 +426,25 @@ function changeBot()
 if ChangeBotWhenMaxLevel then
         if getBot():getLocal().level >= maxlevel then
             oldbotworld = getBot():getWorld().name
-            sleep(50)
             oldbotname = getBot():getLocal().name
-            sleep(50)
             botshow("Bot Level : "..getBot():getLocal().level.." Changing Bot...")
-            sleep(100)
             warp(WorldSaveSeed,WorldSaveSeedID)
-            sleep(4000)
             for _, tile in pairs(getBot():getTiles()) do
             if tile.fg == IDPatokanSeed then
             getBot():findPath(tile.x+1,tile.y)
-            sleep(2000)
+            sleep(500)
      end
   end
             seedid_count = getBot():getItemCount(seedid)
             blockid_count = getBot():getItemCount(blockid)
             getBot():drop(blockid,blockid_count)
-            sleep(100)
+            sleep(1000)
             getBot():move(RIGHT,1)
             sleep(500)
             getBot():drop(seedid,seedid_count)
-            sleep(100)
+            sleep(1000)
             if getBot():getLocal().gems >= packgems then
                 belicuy()
-                sleep(1000)
             end
             sleep(100)
             getBot():remove()
@@ -480,8 +494,9 @@ end
 function botRest()
 te = os.time() - t
 local minutes = math.floor(te%86400%3600/60)
+local TimeNyaBro = TimeMinutes
 
-for i, curah in pairs(TimeMinutes) do
+for i, curah in pairs(TimeNyaBro) do
 if minutes >= curah then
 getBot():disconnect()
 botshow("Bot Rest.. For "..SleepRest.." Minutes")
@@ -498,7 +513,7 @@ if getBot():getBotStatus() == Success then
 warp(rumah,wid:upper())
 backpos(posX-1,posY-1)
 jalan()
-table.remove(TimeMinutes, i)
+table.remove(TimeNyaBro, i)
 break
 end
 else
@@ -506,6 +521,11 @@ return
 end
 end
 end
+
+function restoreTimeMinutes(restoredTimeMinutes)
+    TimeMinutes = restoredTimeMinutes
+end
+
 
 function cekbl(world)
     blist = {}
@@ -631,12 +651,14 @@ function backpos(x,y)
 werkd = rumah
     for _, tile in pairs(getBot():getTiles()) do
         if tile.fg == 6 then
+            repeat
             getBot():sendPacket("action|join_request\nname|".. werkd .. "|" .. wid:upper().."\ninvitedWorld|0",3)
-            sleep(1000)
+            sleep(4000)
+            until tile.fg ~= 6
             if x and y and getBot():getBotStatus() == Success and getBot():getWorld().name:upper() == werkd:upper() then
                 repeat
                     getBot():findPath(x,y)
-                    sleep(100)
+                    sleep(400)
                 until math.floor(getBot():getLocal().pos.x / 32) == x or math.floor(getBot():getLocal().pos.y / 32) == y
             end
             if getBot():getBotStatus() == Success and getBot():getWorld().name:upper() == werkd:upper() then
@@ -659,6 +681,8 @@ function enetStatus()
         return string.upper("Online")
     elseif getBot():getBotStatus() == ShadowBan then
         return string.upper("Shadow Ban")
+    else
+        return string.upper("Unknown Status")
     end
 end
 
@@ -710,13 +734,13 @@ local playerNumber = tonumber(x.body:match("%d+"))
     botshow("Bot Off, Ban Wave!..")
     sleep(SleepBotOff)
     getBot():setBool("autoReconnect", true)
-    if getBot():getEnetStatus() ~= Success then
-    while getBot():getEnetStatus() ~= Success do
+    if getBot():getEnetStatus() ~= Connected then
+    while getBot():getEnetStatus() ~= Connected do
     getBot():reConnect()
     sleep(7000)
     end
     end
-    if getBot():getBotStatus() == Success then
+    if getBot():getEnetStatus() == Connected then
     warp(waras,wid:upper())
     jalan()
   end
@@ -805,9 +829,9 @@ end
 
 function warp(world,id)
 getBot():sendPacket("action|join_request\nname|"..world.."|"..id.."\ninvitedWorld|0",3)
-sleep(6000)
+sleep(4000)
 getBot():sendPacket("action|join_request\nname|"..world.."|"..id.."\ninvitedWorld|0",3)
-sleep(6000)
+sleep(4000)
 end
 
 function joinid(world,id)
@@ -824,7 +848,7 @@ function warpfarm(world, id)
     while getBot():getWorld().name:upper() ~= world and not nuked do
         ruok = ruok + 1
         getBot():sendPacket("action|join_request\nname|"..world.."|"..id.."\ninvitedWorld|0",3)
-        sleep(6000)
+        sleep(4000)
         
         if getBot():getWorld().name:upper() == world:upper() then
             joinid(world,id)
@@ -952,7 +976,6 @@ coptrashs()
 atas = getBot():getWorld().name
 botshow("Breaking")
 getBot():findPath(posXBreak,posYBreak)
-sleep(1000)
 getBot():autoCollect(4,true)
 while getBot():getItemCount(seedid-1) > 0 do
 reconnect(posX-1,posY-1)
@@ -1283,17 +1306,16 @@ function belicuy()
             getBot():sendPacket("action|buy\nitem|".. itemname,2)
             sleep(4000)
             gemssave = gemssave + packgems
-            totalpack = totalpack + 1
         if getBot():getItemCount(packitemid[1]) < 1 then
                 getBot():sendPacket("action|buy\nitem|upgrade_backpack",2)
                 sleep(5000)
-            totalpack = 0
         end
         if getBot():getLocal().gems < packgems then
             break
       end
  end
         savecuy()
+         totalpack = SeedsScanner(packitemid[1])
         botpack("Done Droping Pack, Back To Farm...")
     warp(woloy,wid:upper())
    backpos(posX-1,posY-1)
@@ -1378,6 +1400,7 @@ function startwoi()
 while true do
 if getBot():getEnetStatus() == Connected then
 for index,world in pairs(worlds) do
+emoji = cekemoji()
 rumah = world
 waktuWorld()
 if Guest then
@@ -1390,6 +1413,7 @@ if checknya then
 takepick()
 warpfarm(world,wid)
 if not nuked then
+restoreTimeMinutes(TimeMinutes)
 cekbl(world)
 tt = os.time()
 gemsawal = getBot():getLocal().gems
