@@ -1423,7 +1423,11 @@ jalan()
       tt = os.time() - tt
       waktu[world] = math.floor(tt / 3600) .. " Hours " .. math.floor(tt % 3600 / 60) .. " Minutes"
       sleep(100)
-      start = start + 1
+      if start < #WorldList then
+       start = start + 1
+      else
+      loopnya = loopnya + 1
+      end
       if JoinWorldAfterFinish then
         joinworld()
       end
@@ -1440,9 +1444,6 @@ if not loop then
     botshow("All World Is Done Bot Is Removed")
     getBot():remove()
     break
-else
-start = 1
-loop = loop + 1
   end
 end
 end
