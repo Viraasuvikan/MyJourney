@@ -644,6 +644,7 @@ getBot():remove()
 startwoi()
   else
   botshow("Bot Got Ban, No BackUpBot :)")
+getBot():remove()
   end
 end
 
