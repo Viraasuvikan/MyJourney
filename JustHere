@@ -1439,6 +1439,9 @@ if not loop then
     botshow("All World Is Done Bot Is Removed")
     getBot():remove()
     break
+else
+start = 1
+loop = loop + 1
   end
 end
 end
