@@ -651,11 +651,11 @@ end
 function backpos(x,y)
 werkd = rumah
     for _, tile in pairs(getBot():getTiles()) do
-        if tile.fg == 6 then
+       if getBot():getTile(math.floor(getBot():getLocal().pos.x / 32),math.floor(getBot():getLocal().pos.y / 32)).fg == 6 then
             repeat
             getBot():sendPacket("action|join_request\nname|".. werkd .. "|" .. wid:upper().."\ninvitedWorld|0",3)
             sleep(4000)
-            until tile.fg ~= 6
+            until getBot():getTile(math.floor(getBot():getLocal().pos.x / 32),math.floor(getBot():getLocal().pos.y / 32)).fg ~= 6
             if x and y and getBot():getBotStatus() == Success and getBot():getWorld().name:upper() == werkd:upper() then
                 repeat
                     getBot():findPath(x,y)
