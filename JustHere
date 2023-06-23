@@ -156,6 +156,8 @@ function status()
       return string.upper("Update Required") 
     elseif getBot():getBotStatus() == BypassTutorial then
       return string.upper("Finishing Tutorial")          
+      else
+      return string.upper("Unknown Status")
     end
 end
 
@@ -385,6 +387,11 @@ getBot():hitTile(tile.x,tile.y-1)
 sleep(delayharvest)
             getBot():hitTile(tile.x,tile.y)
             sleep(delayharvest)
+end
+ while getBot():getTile(tile.x, tile.y).fg == (seedid + 4) and getBot():getTile(tile.x, tile.y).flags ~= 0 do
+ punch(0, 1)
+sleep(delayharvest)
+reconnect(posX-1,posY-1)
           end
         end
       end
@@ -402,6 +409,11 @@ getBot():hitTile(tile.x,tile.y-1)
 sleep(delayharvest)
             getBot():hitTile(tile.x,tile.y)
             sleep(delayharvest)
+end
+ while getBot():getTile(tile.x, tile.y).fg == (seedid + 4) and getBot():getTile(tile.x, tile.y).flags ~= 0 do
+ punch(0, 1)
+sleep(delayharvest)
+reconnect(posX-1,posY-1)
           end
         end
       end
@@ -754,7 +766,6 @@ function harvest()
 atas = getBot():getWorld().name
 soilmode()
 coptrashs()
-botshow("Harvesting")
 getBot():autoCollect(4,true)
 for _, tile in pairs(getBot():getTiles()) do
 if getBot():getTile(tile.x,tile.y-1).fg == seedid and getBot():canHarvest(tile.x,tile.y-1) and getBot():getItemCount(seedid-1) < 165 then
@@ -803,7 +814,6 @@ for _,rah in pairs(getBot():getObjects()) do
 function plant()
 cekbp()
 coptrashs()
-botshow("Planting")
 for _, tile in pairs(getBot():getTiles()) do
 if tile.fg ~= 0 and tile.fg ~= seedid and getBot():getTile(tile.x, tile.y-1).fg ~= seedid-1 and getBot():getTile(tile.x, tile.y-1).fg ~= seedid and getBot():getItemCount(seedid) > 0 then
 if getBot():getTile(tile.x, tile.y-1).fg == 0 then
@@ -975,7 +985,6 @@ end
 function breaks()
 coptrashs()
 atas = getBot():getWorld().name
-botshow("Breaking")
 getBot():findPath(posXBreak,posYBreak)
 getBot():autoCollect(4,true)
 while getBot():getItemCount(seedid-1) > 0 do
@@ -1269,20 +1278,14 @@ function saveseed()
     warp(WorldSaveSeed, WorldSaveSeedID)
     for _, tile in pairs(getBot():getTiles()) do
         if tile.fg == IDPatokanSeed or tile.bg == IDPatokanSeed then
-           getBot():findPath(tile.x - 1, tile.y)
-           sleep(1000)
-            local flag = true
-            while flag do
-                if getBot():getItemCount(seedid) > 100 then
-                    getBot():sendPacket("action|drop\n|itemID|" .. seedid, 2)
-                    getBot():sendPacket("action|dialog_return\ndialog_name|drop_item\nitemID|" .. seedid .. "|\ncount|100", 2)
-                    sleep(1000)
-                    reconnectseed(atas, tile.x, tile.y)
-                    getBot():findPath(tile.x - 1, tile.y)
-                    sleep(1000)
-                else
-                    flag = false 
-                end
+            getBot():findPath(tile.x - 1, tile.y)
+            sleep(1000)
+            while getBot():getItemCount(seedid) > 100 do
+                getBot():sendPacket("action|drop\n|itemID|" .. seedid, 2)
+                getBot():sendPacket("action|dialog_return\ndialog_name|drop_item\nitemID|" .. seedid .. "|\ncount|100", 2)
+                sleep(1000)
+                reconnectseed(atas, tile.x, tile.y)
+                log("here"..getBot():getItemCount(seedid).."")
             end
         end
     end
@@ -1291,8 +1294,7 @@ function saveseed()
     seeddrop = SeedsScanner(seedid)
     botpack("Success Saving Seeds")
     sleep(500)
-    warp(atas, wid:upper())
-    backpos(posX - 1, posY - 1)
+    warpfarm(atas, wid:upper())
 end
 
 
@@ -1318,8 +1320,7 @@ function belicuy()
         savecuy()
          totalpack = SeedsScanner(packitemid[1])
         botpack("Done Droping Pack, Back To Farm...")
-    warp(woloy,wid:upper())
-   backpos(posX-1,posY-1)
+    warpfarm(woloy,wid:upper())
 end
 
 function anjay()
@@ -1415,6 +1416,7 @@ takepick()
 warpfarm(world,wid)
 if not nuked then
 restoreTimeMinutes(TimeMinutes)
+botshow("Bot Start")
 cekbl(world)
 tt = os.time()
 gemsawal = getBot():getLocal().gems
@@ -1438,6 +1440,7 @@ nuked = false
 sleep(5000)
    end
 end
+end
 if not loop then
     waktuWorld()
     sleep(100)
@@ -1445,7 +1448,6 @@ if not loop then
     getBot():remove()
     break
   end
-end
 end
 end
 end
