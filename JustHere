@@ -832,36 +832,30 @@ end
 end
 end
 
+nuked = false 
 function warp(world,id)
-getBot():sendPacket("action|join_request\nname|"..world.."|"..id.."\ninvitedWorld|0",3)
-sleep(4000)
-getBot():sendPacket("action|join_request\nname|"..world.."|"..id.."\ninvitedWorld|0",3)
-sleep(4000)
-end
-
-function joinid(world,id)
-            getBot():sendPacket("action|join_request\nname|" .. world:upper() .. "|" .. id:upper() .. "\ninvitedWorld|0", 3)
-            sleep(4000)
-end
-
-  local nuked = false
-
-function warpfarm(world, id)
-
-    local ruok = 0
-    
-    while getBot():getWorld().name:upper() ~= world and not nuked do
-        ruok = ruok + 1
-        getBot():sendPacket("action|join_request\nname|"..world.."|"..id.."\ninvitedWorld|0",3)
-        sleep(4000)
-        
-        if getBot():getWorld().name:upper() == world:upper() then
-            joinid(world,id)
+    cok = 0
+    while getBot():getWorld().name:upper() ~= world:upper() and not nuked do
+        while getBot():getBotStatus() ~= Success do
+            getBot():reConnect()
+            sleep(5000)
         end
-        
-        if ruok == 25 then
+        getBot():sendPacket("action|join_request\nname|"..world:upper().."\ninvitedWorld|0",3)
+        sleep(5000)
+        if cok == 10 then
             nuked = true
-           return
+        else
+            cok = cok + 1
+        end
+    end
+    if id ~= "" and not nuked then
+        while getBot():getTile(math.floor(getBot():getLocal().pos.x / 32),math.floor(getBot():getLocal().pos.y / 32)).fg == 6 and not nuked do
+            while getBot():getBotStatus() ~= Success do
+                getBot():reConnect()
+                sleep(5000)
+            end
+            getBot():sendPacket("action|join_request\nname|"..world:upper().."|"..id:upper().."\ninvitedWorld|0",3)
+            sleep(1000)
         end
     end
 end
@@ -1288,7 +1282,7 @@ function saveseed()
     seeddrop = SeedsScanner(seedid)
     botpack("Success Saving Seeds")
     sleep(500)
-    warpfarm(atas, wid:upper())
+    warp(atas, wid:upper())
 end
 
 
@@ -1314,7 +1308,7 @@ function belicuy()
         savecuy()
          totalpack = SeedsScanner(packitemid[1])
         botpack("Done Droping Pack, Back To Farm...")
-    warpfarm(woloy,wid:upper())
+    warp(woloy,wid:upper())
 end
 
 function anjay()
@@ -1407,7 +1401,7 @@ checkdata()
 end
 if checknya then
 takepick()
-warpfarm(world,wid)
+warp(world,wid)
 if not nuked then
 restoreTimeMinutes(TimeMinutes)
 botshow("Bot Start")
