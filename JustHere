@@ -374,7 +374,6 @@ function soilmode()
 y = 0
   if SoilFarmMode then
     if IgnoreGems then
-    botshow("Harvesting")
     getBot():setBool("ignoreGem",true)
       getBot():autoCollect(4,true)
 for _, tile in pairs(getBot():getTiles()) do
@@ -385,11 +384,9 @@ while getBot():getTile(tile.x,tile.y - 1).fg == seedid and getBot():canHarvest(t
 reconnect(posX-1,posY-1)
 getBot():hitTile(tile.x,tile.y-1)
 sleep(delayharvest)
-            getBot():hitTile(tile.x,tile.y)
-            sleep(delayharvest)
 end
  while getBot():getTile(tile.x, tile.y).fg == (seedid + 4) and getBot():getTile(tile.x, tile.y).flags ~= 0 do
- punch(0, 1)
+ getBot():punchTile(0, 1)
 sleep(delayharvest)
 reconnect(posX-1,posY-1)
           end
@@ -397,7 +394,6 @@ reconnect(posX-1,posY-1)
       end
     end
     elseif not IgnoreGems then
-      botshow("Harvesting")
       getBot():autoCollect(4,true)
 for _, tile in pairs(getBot():getTiles()) do
 if getBot():getTile(tile.x,tile.y-1).fg == seedid and getBot():canHarvest(tile.x,tile.y-1) and getBot():getItemCount(seedid-1) < 165 then
@@ -407,20 +403,18 @@ while getBot():getTile(tile.x,tile.y - 1).fg == seedid and getBot():canHarvest(t
 reconnect(posX-1,posY-1)
 getBot():hitTile(tile.x,tile.y-1)
 sleep(delayharvest)
-            getBot():hitTile(tile.x,tile.y)
-            sleep(delayharvest)
-end
+          end
  while getBot():getTile(tile.x, tile.y).fg == (seedid + 4) and getBot():getTile(tile.x, tile.y).flags ~= 0 do
- punch(0, 1)
+ getBot():punchTile(0, 1)
 sleep(delayharvest)
 reconnect(posX-1,posY-1)
-          end
         end
       end
     end
  end
 end
  end
+end
 
  function coptrashs()
         for a, trash in ipairs(trashList) do
