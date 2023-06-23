@@ -832,6 +832,11 @@ end
 end
 end
 
+function warpdoang(world,id)
+getBot():sendPacket("action|join_request\nname|"..world:upper().."|"..id:upper().."\ninvitedWorld|0",3)
+sleep(4000)
+end
+
 nuked = false 
 function warp(world,id)
     cok = 0
@@ -1079,7 +1084,7 @@ RequestINFO.url = "https://rentry.org/wongrekkahmesi/raw"
 x = httpReq(RequestINFO)
 if x.success then
   if string.find(x.body, OwnerName) then
-    warp(MeetWorld[JoinMeetWorld],"lul")
+    warpdoang(MeetWorld[JoinMeetWorld],"lul")
 else
 botshow("Owner Name Not Found In Database")
 end
