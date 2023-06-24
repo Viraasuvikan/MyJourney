@@ -916,6 +916,7 @@ getBot():sendPacketRaw(packet)
 end
 
 function takepick()
+if TakePick then
 botshow("Bot Taking Pickaxe..")
 if getBot():getItemCount(98) == 0 then
     warp(WorldPick,WorldPickID)
@@ -942,6 +943,7 @@ if getBot():getItemCount(98) == 0 then
     sleep(1000)
     wear(98)
     sleep(500)
+end
 end
 end
 
