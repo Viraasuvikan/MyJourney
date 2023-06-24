@@ -937,10 +937,12 @@ if getBot():getItemCount(98) == 0 then
     end
     getBot():move(LEFT,1)
     sleep(100)
+    while getBot():getItemCount(98) > 1 do
     getBot():sendPacket("action|drop\n|itemID|98",2)
     sleep(1000)
     getBot():sendPacket("action|dialog_return\ndialog_name|drop_item\nitemID|98|\ncount|"..(getBot():getItemCount(98) - 1),2)
     sleep(1000)
+    end
     wear(98)
     sleep(500)
 end
