@@ -705,28 +705,28 @@ end
 function reconnect(x,y)
 atas = getBot():getWorld().name
 if getBot():getEnetStatus() == Connected and getBot():getWorld().name:upper() == "EXIT" then
-TagBan("**"..getBot():getLocal().name:upper().." In EXIT, Now Back To Farm In "..rumah.." @everyone **")
+TagBan("**"..getBot():getLocal().name:upper().." ( Slot - "..slot.." ) In EXIT, Now Back To Farm In "..rumah.." @everyone **")
 sleep(5000)
 warp(rumah,wid:upper())
 backpos(x,y)
 jalan()
 end
 if getBot():getEnetStatus() ~= Connected then
-TagBan("**"..getBot():getLocal().name:upper().." Was "..enetStatus().." Reconnecting... @everyone **")
+TagBan("**"..getBot():getLocal().name:upper().." ( Slot - "..slot.." ) Was "..enetStatus().." Reconnecting... @everyone **")
 repeat
 getBot():reConnect()
 sleep(8000)
 until getBot():getEnetStatus() == Connected or getBot():getBotStatus() == Suspended or getBot():getBotStatus() == Banned 
 if getBot():getBotStatus() == Suspended then 
-TagBan("**"..getBot():getLocal().name:upper().." Was "..status().." Removing Bot... @everyone**")
+TagBan("**"..getBot():getLocal().name:upper().." ( Slot - "..slot.." ) Was "..status().." Removing Bot... @everyone**")
 banned()
 end
 if getBot():getBotStatus() == Banned then
-TagBan("**"..getBot():getLocal().name:upper().." Was "..status().." Removing Bot... @everyone**")
+TagBan("**"..getBot():getLocal().name:upper().." ( Slot - "..slot.." ) Was "..status().." Removing Bot... @everyone**")
 banned()
 end
 if getBot():getBotStatus() == Success and getBot():getEnetStatus() == Connected then
-TagBan("**"..getBot():getLocal().name:upper().." Was "..enetStatus().." Now Back To Farm.. @everyone **")
+TagBan("**"..getBot():getLocal().name:upper().." ( Slot - "..slot.." ) Was "..enetStatus().." Now Back To Farm.. @everyone **")
 sleep(5000)
 warp(rumah,wid:upper())
 backpos(x,y)
@@ -1173,26 +1173,26 @@ end
 
 function reconnectpack(world,x,y)
 if getBot():getBotStatus() == Success and getBot():getWorld().name:upper() == "EXIT" then
-TagBan("**"..getBot():getLocal().name:upper().." In EXIT, Now Back Saving "..pack.." In "..world.." @everyone **")
+TagBan("**"..getBot():getLocal().name:upper().." ( Slot - "..slot.." ) In EXIT, Now Back Saving "..pack.." In "..world.." @everyone **")
 sleep(5000)
 warp(world,WorldSavePackID)
 sleep(500)
 backpospack(world,x,y)
 end
 if getBot():getEnetStatus() ~= Connected then
-TagBan("**"..getBot():getLocal().name:upper().." Was "..status().." Reconnecting... @everyone **")
+TagBan("**"..getBot():getLocal().name:upper().." ( Slot - "..slot.." ) Was "..status().." Reconnecting... @everyone **")
 repeat
 getBot():reConnect()
 sleep(8000)
 until getBot():getEnetStatus() == Connected or getBot():getBotStatus() == Suspended or getBot():getBotStatus() == Banned 
 if getBot():getBotStatus() == Suspended then 
-TagBan("**"..getBot():getLocal().name:upper().." Was "..status().." Removing Bot... @everyone**")
+TagBan("**"..getBot():getLocal().name:upper().." ( Slot - "..slot.." ) Was "..status().." Removing Bot... @everyone**")
 banned()
 elseif getBot():getBotStatus() == Banned then
-TagBan("**"..getBot():getLocal().name:upper().." Was "..status().." Removing Bot... @everyone**")
+TagBan("**"..getBot():getLocal().name:upper().." ( Slot - "..slot.." ) Was "..status().." Removing Bot... @everyone**")
 banned()
 elseif getBot():getBotStatus() == Success and getBot():getEnetStatus() == Connected then
-TagBan("**"..getBot():getLocal().name:upper().." Was "..status().." Now Back To Saving "..pack.." In "..world.." @everyone **")
+TagBan("**"..getBot():getLocal().name:upper().." ( Slot - "..slot.." ) Was "..status().." Now Back To Saving "..pack.." In "..world.." @everyone **")
 sleep(5000)
 warp(world,WorldSavePackID)
 sleep(500)
@@ -1203,26 +1203,26 @@ end
 
 function reconnectseed(world,x,y)
 if getBot():getBotStatus() == Success and getBot():getWorld().name:upper() == "EXIT" then
-TagBan("**"..getBot():getLocal().name:upper().." In EXIT, Now Back Saving Seed In "..world.." @everyone **")
+TagBan("**"..getBot():getLocal().name:upper().." ( Slot - "..slot.." ) In EXIT, Now Back Saving Seed In "..world.." @everyone **")
 sleep(5000)
 warp(world,WorldSaveSeedID)
 sleep(500)
 backposseed(world,x,y)
 end
 if getBot():getEnetStatus() ~= Connected then
-TagBan("**"..getBot():getLocal().name:upper().." Was "..status().." Reconnecting... @everyone **")
+TagBan("**"..getBot():getLocal().name:upper().." ( Slot - "..slot.." ) Was "..status().." Reconnecting... @everyone **")
 repeat
 getBot():reConnect()
 sleep(8000)
 until getBot():getEnetStatus() == Connected or getBot():getBotStatus() == Suspended or getBot():getBotStatus() == Banned 
 if getBot():getBotStatus() == Suspended then 
-TagBan("**"..getBot():getLocal().name:upper().." Was "..status().." Removing Bot... @everyone**")
+TagBan("**"..getBot():getLocal().name:upper().." ( Slot - "..slot.." ) Was "..status().." Removing Bot... @everyone**")
 banned()
 elseif getBot():getBotStatus() == Banned then
-TagBan("**"..getBot():getLocal().name:upper().." Was "..status().." Removing Bot... @everyone**")
+TagBan("**"..getBot():getLocal().name:upper().." ( Slot - "..slot.." ) Was "..status().." Removing Bot... @everyone**")
 banned()
 elseif getBot():getBotStatus() == Success and getBot():getEnetStatus() == Connected then
-TagBan("**"..getBot():getLocal().name:upper().." Was "..status().." Now Back To Saving Seeds In "..world.." @everyone **")
+TagBan("**"..getBot():getLocal().name:upper().." ( Slot - "..slot.." ) Was "..status().." Now Back To Saving Seeds In "..world.." @everyone **")
 sleep(5000)
 warp(world,WorldSaveSeedID)
 sleep(500)
