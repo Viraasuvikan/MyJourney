@@ -908,38 +908,40 @@ function scanFloat(id)
     return count
 end
 
-function takepick()
-if TakePick then
-if getBot():getItemCount(98) == 0 then
-botshow("Take Pick")
-waras = getBot():getWorld().name
-    getBot():autoCollect(4,false)
-warp(WorldPick,WorldPickID)
-if scanFloat(98) == 0 then
-sleep(15000)
-end
-if scanFloat(98) == 0 then
-return
-else
-collectobjectnya(98)
-sleep(3000)
-if getBot():getItemCount(98) > 0 then
-    getBot():sendPacket("action|drop\n|itemID|98", 2)
-    sleep(5000)
-    getBot():sendPacket("action|dialog_return\ndialog_name|drop_item\nitemID|98|\ncount|" .. (getBot():getItemCount(98) - 1), 2)
-    sleep(5000)
-else
-botshow("No Pick In Save World")
-end
+function wear(id)
 packet = {}
 packet.type = 10 
-packet.int_data = 98 
+packet.int_data = id
 getBot():sendPacketRaw(packet)
-sleep(1000)
-warp(waras,wid:upper())
-sleep(5000)
 end
-end
+
+function takepick()
+botshow("Bot Taking Pickaxe..")
+if getBot():getItemCount(98) == 0 then
+    warp(WorldPick,WorldPickID)
+    sleep(100)
+    while getBot():getItemCount(98) == 0 do
+        for _,obj in pairs(getBot():getObjects()) do
+            if obj.id == 98 then
+                getBot():findPath(math.floor(obj.x / 32),math.floor(obj.y / 32))
+                sleep(1000)
+                getBot():autoCollect(4,true)
+                sleep(1000)
+                getBot():autoCollect(4,false)
+            end
+            if getBot():getItemCount(98) > 0 then
+                break
+            end
+        end
+    end
+    getBot():move(LEFT,1)
+    sleep(100)
+    getBot():sendPacket("action|drop\n|itemID|98",2)
+    sleep(1000)
+    getBot():sendPacket("action|dialog_return\ndialog_name|drop_item\nitemID|98|\ncount|"..(getBot():getItemCount(98) - 1),2)
+    sleep(1000)
+    wear(98)
+    sleep(500)
 end
 end
 
