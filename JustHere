@@ -923,7 +923,7 @@ if getBot():getItemCount(98) == 0 then
     while getBot():getItemCount(98) == 0 do
         for _,obj in pairs(getBot():getObjects()) do
             if obj.id == 98 then
-                getBot():findPath(math.floor(obj.x / 32),math.floor(obj.y / 32))
+                getBot():findPath(math.floor(obj.pos.x / 32),math.floor(obj.pos.y / 32))
                 sleep(1000)
                 getBot():autoCollect(4,true)
                 sleep(1000)
