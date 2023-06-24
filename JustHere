@@ -927,8 +927,8 @@ end
 
 function takepick()
 if TakePick then
-botshow("Bot Taking Pickaxe..")
 if getBot():getItemCount(98) == 0 then
+botshow("Bot Taking Pickaxe..")
     warp(WorldPick,WorldPickID)
     sleep(100)
     while getBot():getItemCount(98) == 0 do
