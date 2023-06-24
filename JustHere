@@ -1,6 +1,6 @@
 --===JOPY STORE===--
 
-
+Time = {}
 berlian = {}
 pohon = {}
 waktu = {}
@@ -502,40 +502,44 @@ if ChangeBotWhenMaxLevel then
     end
 end
 
+local processedTimes = {} -- Tabel untuk menyimpan waktu yang telah diproses
+
 function botRest()
-te = os.time() - t
-local minutes = math.floor(te%86400%3600/60)
-local TimeNyaBro = TimeMinutes
+    local current_hour = tonumber(os.date("%H"))
 
-for i, curah in pairs(TimeNyaBro) do
-if minutes >= curah then
-getBot():disconnect()
-botshow("Bot Rest.. For "..SleepRest.." Minutes")
-sleep(SleepRest * 60 * 1000)
-getBot():reConnect()
-botshow("Bot Done Rest, Starting Back...")
-if getBot():getBotStatus() ~= Success then
-repeat
-getBot():reConnect()
-sleep(10000)
-until getBot():getBotStatus() == Success
-end
-if getBot():getBotStatus() == Success then
-warp(rumah,wid:upper())
-backpos(posX-1,posY-1)
-jalan()
-table.remove(TimeNyaBro, i)
-break
-end
-else
-return
-end
-end
+    for i = #TimeRest, 1, -1 do
+        local curah = TimeRest[i]
+        if current_hour == curah and not isTimeProcessed(curah) then
+            getBot():disconnect()
+            botshow("Bot Rest.. For " .. SleepRest .. " Minutes")
+            sleep(SleepRest * 60 * 1000)
+            getBot():reConnect()
+            botshow("Bot Done Rest, Starting Back...")
+            if getBot():getBotStatus() ~= Success then
+                repeat
+                    getBot():reConnect()
+                    sleep(10000)
+                until getBot():getBotStatus() == Success
+            end
+            if getBot():getBotStatus() == Success then
+                table.insert(processedTimes, curah) -- Menyimpan waktu yang telah diproses
+                warp(rumah, wid:upper())
+                jalan()
+                break -- Keluar dari loop jika jam cocok
+            end
+        end
+    end
 end
 
-function restoreTimeMinutes(restoredTimeMinutes)
-    TimeMinutes = restoredTimeMinutes
+function isTimeProcessed(time)
+    for i = 1, #processedTimes do
+        if processedTimes[i] == time then
+            return true -- Mengembalikan true jika waktu sudah diproses sebelumnya
+        end
+    end
+    return false -- Mengembalikan false jika waktu belum diproses sebelumnya
 end
+
 
 
 function cekbl(world)
@@ -889,6 +893,12 @@ end
 end
 end
 
+function restoretime()
+for i = 1,#TimeRest do
+table.insert(Time, #TimeRest)
+end
+end
+
 function dropItem(itemID, count)
 if getBot():getItemCount(itemID) >= count then
 getBot():sendPacket("action|drop\nitemID|" .. itemID,2)
@@ -1103,7 +1113,7 @@ end
     for _, plr in pairs(getBot():getPlayers()) do
  if plr.name == "`w"..OwnerName.."``" or plr.name == "`2"..OwnerName.."``" then
         found = true
-        getBot():say("`2Owner Found, See You")
+        getBot():say("`2Owner Found, See You ~~ Kirana (tongue)")
         break
  end
 end
@@ -1401,6 +1411,11 @@ cukcuk1(letus)
 end
 end
 
+function clearTable(tbl)
+    for k in pairs(tbl) do
+        tbl[k] = nil
+    end
+end
 
 function startwoi()
 while true do
@@ -1419,7 +1434,7 @@ if checknya then
 takepick()
 warp(world,wid)
 if not nuked then
-restoreTimeMinutes(TimeMinutes)
+clearTable(processedTimes)
 botshow("Bot Start")
 cekbl(world)
 tt = os.time()
