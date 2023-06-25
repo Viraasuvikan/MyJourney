@@ -3,6 +3,7 @@
 Time = {}
 berlian = {}
 pohon = {}
+blist = {}
 waktu = {}
 worlds = {}
 blist = {}
@@ -752,8 +753,8 @@ local playerNumber = tonumber(x.body:match("%d+"))
     sleep(1000)
     getBot():setBool("autoReconnect", false)
     getBot():disconnect()
-    botshow("Bot Off, Ban Wave!..")
-    sleep(SleepBotOff)
+    botshow("Bot Off, Ban Wave!, And Rest For "..SleepBotOff.." Minutes")
+    sleep(SleepBotOff * 60 * 1000)
     getBot():setBool("autoReconnect", true)
     if getBot():getEnetStatus() ~= Connected then
     while getBot():getEnetStatus() ~= Connected do
@@ -762,7 +763,7 @@ local playerNumber = tonumber(x.body:match("%d+"))
     end
     end
     if getBot():getEnetStatus() == Connected then
-    warp(waras,wid:upper())
+    warp(rumah,wid:upper())
     jalan()
   end
 end
@@ -771,7 +772,6 @@ end
 
 
 function harvest()
-atas = getBot():getWorld().name
 soilmode()
 coptrashs()
 getBot():autoCollect(4,true)
@@ -780,7 +780,7 @@ if getBot():getTile(tile.x,tile.y-1).fg == seedid and getBot():canHarvest(tile.x
 if not blacklistTiles or check(tile.x,tile.y) then
 getBot():findPath(tile.x,tile.y-1)
 while getBot():getTile(tile.x,tile.y - 1).fg == seedid and getBot():canHarvest(tile.x,tile.y-1) do
-reconnect(posX-1,posY-1)
+reconnect(tile.x,tile.y-1)
 getBot():hitTile(tile.x,tile.y-1)
 sleep(delayharvest)
 end
@@ -823,19 +823,19 @@ function plant()
 cekbp()
 coptrashs()
 for _, tile in pairs(getBot():getTiles()) do
-if tile.fg ~= 0 and tile.fg ~= seedid and getBot():getTile(tile.x, tile.y-1).fg ~= seedid and getBot():getItemCount(seedid) > 0 then
+if tile.fg ~= 0 and tile.fg ~= seedid and getBot():getTile(tile.x, tile.y-1).fg ~= seedid-1 and getBot():getTile(tile.x, tile.y-1).fg ~= seedid and getBot():getItemCount(seedid) > 0 then
 if getBot():getTile(tile.x, tile.y-1).fg == 0 then
 if not blacklistTiles or check(tile.x,tile.y) then
 getBot():findPath(tile.x, tile.y-1)
-sleep(delayplant)
+sleep(20)
 if getBot():getTile(math.floor(getBot():getLocal().pos.x / 32), math.floor(getBot():getLocal().pos.y / 32)).fg == 0 then
-reconnect(posX-1,posY-1)
+reconnect(tile.x,tile.y-1)
 getBot():placeTile(tile.x,tile.y-1,seedid)
 sleep(20)
 sleep(delayplant)
 end
 if getBot():getTile(math.floor(getBot():getLocal().pos.x / 32 - 1), math.floor(getBot():getLocal().pos.y / 32)).fg == 0 then
-reconnect(posX-1,posY-1)
+reconnect(tile.x,tile.y-1)
 getBot():placeTile(tile.x,tile.y-1,seedid)
 sleep(20)
 sleep(delayplant)
@@ -1095,9 +1095,11 @@ function foregraund(itemid)
       local count = 0
       for _, tile in pairs(getBot():getTiles()) do
         if tile.fg == itemid and getBot():canHarvest(tile.x,tile.y) then
+      if not blacklistTiles or check(tile.x,tile.y+1) then
           count = count + 1
         end
       end
+   end
       return count
     end
 
