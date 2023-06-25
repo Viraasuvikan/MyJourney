@@ -946,7 +946,7 @@ botshow("Bot Taking Pickaxe..")
         end
     end
     getBot():move(LEFT,1)
-    sleep(100)
+    sleep(1000)
     while getBot():getItemCount(98) > 1 do
     getBot():sendPacket("action|drop\n|itemID|98",2)
     sleep(1000)
