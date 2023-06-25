@@ -1,3 +1,3 @@
 function anjay()
-getBot():say("anjay afgan")
+getBot():disconnect()
 end
