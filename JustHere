@@ -879,25 +879,6 @@ function warp(world,id)
     end
 end
 
-
-function collectobjectnya(ItemID)
-    for _,obj in pairs(getBot():getObjects()) do
-            if obj.id == ItemID then
-    getBot():findPath(math.floor(obj.pos.x/32),math.floor(obj.pos.y/32))
-                sleep(1000)
-                getBot():autoCollect(6,true)
-                sleep(2000)
-                getBot():autoCollect(6,false)
-                sleep(2000)
-                if getBot():getItemCount(ItemID) > 0 then
-        break
-else
-return
-end
-end
-end
-end
-
 function restoretime()
 for i = 1,#TimeRest do
 table.insert(Time, #TimeRest)
@@ -913,15 +894,6 @@ sleep(1000)
 end
 end 
 
-function scanFloat(id)
-    local count = 0
-    for _, obj in pairs(bot:getObjects()) do
-        if obj.id == id then
-            count = count + obj.count
-        end
-    end
-    return count
-end
 
 function wear(id)
 packet = {}
@@ -1315,7 +1287,7 @@ function saveseed()
     seeddrop = SeedsScanner(seedid)
     botpack("Success Saving Seeds")
     sleep(500)
-    warp(atas, wid:upper())
+    warp(rumah, wid:upper())
 end
 
 
@@ -1341,7 +1313,7 @@ function belicuy()
         savecuy()
          totalpack = SeedsScanner(packitemid[1])
         botpack("Done Droping Pack, Back To Farm...")
-    warp(woloy,wid:upper())
+    warp(rumah,wid:upper())
 end
 
 function anjay()
