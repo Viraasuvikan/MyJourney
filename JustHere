@@ -335,6 +335,11 @@ function botpack(Kata)
                 value = "**]]..getBot():getLocal().name:upper()..[[ ( ]]..getBot():getLocal().level..[[ )**"
                 inline = "false"
             }
+            @{ 
+                name = "**<:globez:1011929997679796254>  World** "
+                value = "**]]..getBot():getWorld().name:upper()..[[**"
+                inline = "true"
+            }
             @{
                 name = "**<:shop_sign:1012590603172847648>  Pack Name**"
                 value = "**]]..pack..[[**"
