@@ -1143,6 +1143,7 @@ end
  if plr.name == "`w"..OwnerName.."``" or plr.name == "`2"..OwnerName.."``" then
         found = true
         getBot():say("`2Owner Found, See You ~~ Kirana (tongue)")
+        log("Sudah")
         sleep(2000)
         break
  end
