@@ -28,6 +28,7 @@ emoji = ""
 loopnya = 0
 checknya = false
 
+if AutoAddBot then
 for i = 1, #ListBotAdd do
   if not UseProxyToAdd then
     addBot(ListBotAdd[i], PwBot)
@@ -63,6 +64,7 @@ for i = 1, #ListBotAdd do
       end
     end
   end
+end
 end
 
 
@@ -203,6 +205,9 @@ end
 
 
 function TagBan(kata)
+if not UseWebhookTagBan then
+return
+else
     local text = [[
         $webHookUrl = "]]..WhTagBan..[["
         $payload = @{
@@ -214,6 +219,7 @@ function TagBan(kata)
     local file = io.popen("powershell -command -", "w")
     file:write(text)
     file:close()
+end
 end
 
 totalpack = 0
@@ -243,7 +249,7 @@ end
 end
 
 function botshow(Info)
-if not UseWebhook then
+if not UseWebhookStatus then
 return
 else
 te = os.time() - t
@@ -357,6 +363,9 @@ end
 end
 
 function botpack(Kata)
+if not UseWebhookPackAndSeed then
+return
+else
             te = os.time() - t
     local text = [[
         $webHookUrl = "]]..WhPackAndSeed..[[/messages/]]..MessageIDPack..[["
@@ -417,6 +426,7 @@ function botpack(Kata)
     local file = io.popen("powershell -command -", "w")
     file:write(text)
     file:close()
+end
 end
 
 function soilmode()
