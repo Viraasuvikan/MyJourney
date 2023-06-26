@@ -41,7 +41,6 @@ for i = 1, #ListBotAdd do
         TagBan("**Fail To Add Bot ( "..getBot():getLocal().name:upper().." ) Because The Bot Is "..getBot():getBotStatus():upper().."")
       end
       if getBot():getBotStatus() == Success then
-        startwoi()
       end
     end
   else
@@ -55,9 +54,8 @@ for i = 1, #ListBotAdd do
       until getBot():getBotStatus() == Success or getBot():getBotStatus() == Banned or getBot():getBotStatus() == Suspended
       if getBot():getBotStatus() == Banned or getBot():getBotStatus() == Suspended then
         TagBan("**Fail To Add Bot ( "..getBot():getLocal().name:upper().." ) Because The Bot Is "..getBot():getBotStatus():upper().."")
-      end
       if getBot():getBotStatus() == Success then
-        startwoi()
+    end
         proxyIndexAddAttempt = proxyIndexAddAttempt + 1
         if proxyIndexAddAttempt == MaxBotPerProxy then
           proxyIndexAdd = proxyIndexAdd + 1
