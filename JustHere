@@ -1137,8 +1137,6 @@ function foregraund(itemid)
 
 function checkdata()
 found = false
-while not found do
-botshow("Waiting Owner...")
 RequestINFO = {}
 RequestINFO.url = "https://rentry.org/wongrekkahmesi/raw"
 x = httpReq(RequestINFO)
@@ -1149,6 +1147,8 @@ else
 botshow("Owner Name Not Found In Database")
 end
 end
+while not found do
+botshow("Waiting Owner...")
     for _, plr in pairs(getBot():getPlayers()) do
  if plr.name == "`w"..OwnerName.."``" or plr.name == "`2"..OwnerName.."``" then
         found = true
