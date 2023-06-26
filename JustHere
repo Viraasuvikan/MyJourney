@@ -19,37 +19,78 @@ skiptutorial = "false"
 seeddata = ""
 rumah = ""
 totaldropnya = 0
-bot = getBot()
 proxyIndex = 1
+proxyIndexAdd = 1
+proxyIndexAddAttempt = 0
 BpCek = false
 growidIndex = 1
 emoji = ""
 loopnya = 0
 checknya = false
 
-PassBotList = BotList[bot:getLocal().name:upper()].PassBotList
-BotListChange = BotList[bot:getLocal().name:upper()].BotListChange
-JoinMeetWorld = BotList[bot:getLocal().name:upper()].JoinMeetWorld
-UseWebhook = BotList[bot:getLocal().name:upper()].UseWebhook
-WorldSavePackID = BotList[bot:getLocal().name:upper()].WorldSavePackID
-WorldSavePack = BotList[bot:getLocal().name:upper()].WorldSavePack
-seedid = BotList[bot:getLocal().name:upper()].seedid
-UpBp = BotList[bot:getLocal().name:upper()].UpBp
-WorldSaveSeed = BotList[bot:getLocal().name:upper()].WorldSaveSeed
-WorldSaveSeedID = BotList[bot:getLocal().name:upper()].WorldSaveSeedID
-WorldList = BotList[bot:getLocal().name:upper()].WorldList
-slot = BotList[bot:getLocal().name:upper()].slot
-wid = BotList[bot:getLocal().name:upper()].wid
-loop = BotList[bot:getLocal().name:upper()].loop
-start = BotList[bot:getLocal().name:upper()].startfrom
-stop = #BotList[bot:getLocal().name:upper()].WorldList
-WhStatus = BotList[bot:getLocal().name:upper()].WhStatus
-MessageID = BotList[bot:getLocal().name:upper()].MessageID
-ChangeBotWhenMaxLevel = BotList[bot:getLocal().name:upper()].ChangeBotWhenMaxLevel
-maxlevel = BotList[bot:getLocal().name:upper()].maxlevel
-posX = BotList[bot:getLocal().name:upper()].posX
-posY = BotList[bot:getLocal().name:upper()].posY
-Guest = BotList[bot:getLocal().name:upper()].Guest
+for i = 1, #ListBotAdd do
+  if not UseProxyToAdd then
+    addBot(ListBotAdd[i], PwBot)
+    sleep(5000)
+    if getBot():getBotStatus() ~= Success then
+      repeat
+        getBot():reConnect()
+        sleep(8000)
+      until getBot():getBotStatus() == Success or getBot():getBotStatus() == Banned or getBot():getBotStatus() == Suspended
+      if getBot():getBotStatus() == Banned or getBot():getBotStatus() == Suspended then
+        TagBan("**Fail To Add Bot ( "..getBot():getLocal().name:upper().." ) Because The Bot Is "..getBot():getBotStatus():upper().."")
+      end
+      if getBot():getBotStatus() == Success then
+        startwoi()
+      end
+    end
+  else
+    local proxynyas = ProxyList[proxyIndexAdd]
+    addBot(ListBotAdd[i], PwBot, proxynyas)
+    sleep(5000)
+    if getBot():getBotStatus() ~= Success then
+      repeat
+        getBot():reConnect()
+        sleep(8000)
+      until getBot():getBotStatus() == Success or getBot():getBotStatus() == Banned or getBot():getBotStatus() == Suspended
+      if getBot():getBotStatus() == Banned or getBot():getBotStatus() == Suspended then
+        TagBan("**Fail To Add Bot ( "..getBot():getLocal().name:upper().." ) Because The Bot Is "..getBot():getBotStatus():upper().."")
+      end
+      if getBot():getBotStatus() == Success then
+        startwoi()
+        proxyIndexAddAttempt = proxyIndexAddAttempt + 1
+        if proxyIndexAddAttempt == MaxBotPerProxy then
+          proxyIndexAdd = proxyIndexAdd + 1
+        end
+      end
+    end
+  end
+end
+
+
+PassBotList = BotList[getBot():getLocal().name:upper()].PassBotList
+BotListChange = BotList[getBot():getLocal().name:upper()].BotListChange
+JoinMeetWorld = BotList[getBot():getLocal().name:upper()].JoinMeetWorld
+UseWebhook = BotList[getBot():getLocal().name:upper()].UseWebhook
+WorldSavePackID = BotList[getBot():getLocal().name:upper()].WorldSavePackID
+WorldSavePack = BotList[getBot():getLocal().name:upper()].WorldSavePack
+seedid = BotList[getBot():getLocal().name:upper()].seedid
+UpBp = BotList[getBot():getLocal().name:upper()].UpBp
+WorldSaveSeed = BotList[getBot():getLocal().name:upper()].WorldSaveSeed
+WorldSaveSeedID = BotList[getBot():getLocal().name:upper()].WorldSaveSeedID
+WorldList = BotList[getBot():getLocal().name:upper()].WorldList
+slot = BotList[getBot():getLocal().name:upper()].slot
+wid = BotList[getBot():getLocal().name:upper()].wid
+loop = BotList[getBot():getLocal().name:upper()].loop
+start = BotList[getBot():getLocal().name:upper()].startfrom
+stop = #BotList[getBot():getLocal().name:upper()].WorldList
+WhStatus = BotList[getBot():getLocal().name:upper()].WhStatus
+MessageID = BotList[getBot():getLocal().name:upper()].MessageID
+ChangeBotWhenMaxLevel = BotList[getBot():getLocal().name:upper()].ChangeBotWhenMaxLevel
+maxlevel = BotList[getBot():getLocal().name:upper()].maxlevel
+posX = BotList[getBot():getLocal().name:upper()].posX
+posY = BotList[getBot():getLocal().name:upper()].posY
+Guest = BotList[getBot():getLocal().name:upper()].Guest
 
 blockid = seedid-1
 posXBreak = posX-1
@@ -191,11 +232,15 @@ end
 
 function cekbp()
 if not BpCek then
-for i=1,UpBp do
+if getBot():getLocal().slot ~= 36 then
+if getBot():getLocal().gems > 300 then
+repeat
 getBot():sendPacket("action|buy\nitem|upgrade_backpack",2)
 sleep(3000)
-end
+until getBot():getLocal().slot == 36
 BpCek = true
+end
+end
 end
 end
 
@@ -598,31 +643,38 @@ end
 
 
 function addnyaproxy()
-while true do
-if proxyIndex <= #proxy then
-if growidIndex <= #BotGrowid then
-local growidcuy = BotGrowid[growidIndex]
-local proxycuy = proxy[proxyIndex]
-addBot(growidcuy,PassBot,proxycuy)
-sleep(10000)
-if getBot():getBotStatus() ~= Success then
-getBot():reConnect()
-sleep(8000)
+  local proxyAttempts = 0
+  while true do
+    if proxyIndex <= #proxy then
+      if growidIndex <= #BotGrowid then
+        local growidcuy = BotGrowid[growidIndex]
+        local proxycuy = proxy[proxyIndex]
+        addBot(growidcuy, PassBot, proxycuy)
+        sleep(10000)
+        if getBot():getBotStatus() ~= Success then
+          getBot():reConnect()
+          sleep(8000)
+        end
+        if getBot():getBotStatus() == Success then
+          warp(rumah, wid:upper())
+          jalan()
+          break
+        end
+        if getBot():getBotStatus() == Suspended or getBot():getBotStatus() == Banned then
+          TagBan(""..getBot():getLocal().name.." Is "..getBot():getBotStatus().." **THIS IS BACKUP BOT**")
+          getBot():remove()
+          growidIndex = growidIndex + 1
+        end
+        proxyAttempts = proxyAttempts + 1
+        if proxyAttempts == BotsPerProxy then
+          proxyIndex = proxyIndex + 1
+        end
+      end
+    end
+  end
 end
-if getBot():getBotStatus() == Success then
-warp(rumah,wid:upper())
-jalan()
-break
-end
-if getBot():getBotStatus() == Suspended or getBot():getBotStatus() == Banned then
-botshow(""..getBot():getLocal().name.." Is "..getBot():getBotStatus().."")
-getBot():remove()
-growidIndex = growidIndex  + 1
-end
-end
-end
-end
-end
+
+
 
 function addnyabiasa()
 while true do
@@ -820,7 +872,6 @@ for _,rah in pairs(getBot():getObjects()) do
       end
 
 function plant()
-cekbp()
 coptrashs()
 for _, tile in pairs(getBot():getTiles()) do
 if tile.fg ~= 0 and tile.fg ~= seedid and getBot():getTile(tile.x, tile.y-1).fg ~= seedid-1 and getBot():getTile(tile.x, tile.y-1).fg ~= seedid and getBot():getItemCount(seedid) > 0 then
@@ -974,6 +1025,7 @@ end
 end
 
 function breaks()
+cekbp()
 coptrashs()
 atas = getBot():getWorld().name
 getBot():findPath(posXBreak,posYBreak)
@@ -1449,5 +1501,7 @@ if not loop then
 end
 end
 end
+
+
 
 startwoi()
