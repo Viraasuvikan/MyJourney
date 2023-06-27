@@ -75,7 +75,6 @@ UseWebhook = BotList[getBot():getLocal().name:upper()].UseWebhook
 WorldSavePackID = BotList[getBot():getLocal().name:upper()].WorldSavePackID
 WorldSavePack = BotList[getBot():getLocal().name:upper()].WorldSavePack
 seedid = BotList[getBot():getLocal().name:upper()].seedid
-UpBp = BotList[getBot():getLocal().name:upper()].UpBp
 WorldSaveSeed = BotList[getBot():getLocal().name:upper()].WorldSaveSeed
 WorldSaveSeedID = BotList[getBot():getLocal().name:upper()].WorldSaveSeedID
 WorldList = BotList[getBot():getLocal().name:upper()].WorldList
