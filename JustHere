@@ -780,6 +780,7 @@ end
 if getBot():getEnetStatus() ~= Connected then
 TagBan("**"..getBot():getLocal().name:upper().." ( Slot - "..slot.." ) Was "..enetStatus().." Reconnecting... @everyone **")
 repeat
+sleep(1000)
 getBot():reConnect()
 sleep(8000)
 until getBot():getEnetStatus() == Connected or getBot():getBotStatus() == Suspended or getBot():getBotStatus() == Banned 
