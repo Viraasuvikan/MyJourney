@@ -236,7 +236,7 @@ end
 
 function cekbp()
 if not BpCek then
-if getBot():getLocal().slot ~= 36 then
+if getBot():getLocal().slot < 36 then
 if getBot():getLocal().gems > 300 then
 repeat
 getBot():sendPacket("action|buy\nitem|upgrade_backpack",2)
