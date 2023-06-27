@@ -157,7 +157,7 @@ return unreadytree
 end
 
 function cekemoji()
-if seedid == 4586 then
+if seedid == 4585 then
 return "<:paperseedbs:1063061801601871932>"
 elseif seedid == 5667 then
 return "<:lgrid_seed:1091612884758437959>"
