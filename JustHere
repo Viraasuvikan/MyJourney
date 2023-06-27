@@ -1384,7 +1384,7 @@ end
 end
 
 function rotisan()
-if getBot():getItemCount(seedid) > 160 then
+if getBot():getItemCount(seedid) > 130 then
 saveseed()
 end
 end
