@@ -71,7 +71,7 @@ end
 PassBotList = BotList[getBot():getLocal().name:upper()].PassBotList
 BotListChange = BotList[getBot():getLocal().name:upper()].BotListChange
 JoinMeetWorld = BotList[getBot():getLocal().name:upper()].JoinMeetWorld
-UseWebhook = BotList[getBot():getLocal().name:upper()].UseWebhook
+UseWebhookStatus = BotList[getBot():getLocal().name:upper()].UseWebhookStatus
 WorldSavePackID = BotList[getBot():getLocal().name:upper()].WorldSavePackID
 WorldSavePack = BotList[getBot():getLocal().name:upper()].WorldSavePack
 seedid = BotList[getBot():getLocal().name:upper()].seedid
@@ -1148,6 +1148,7 @@ botshow("Owner Name Not Found In Database")
 end
 end
 while not found do
+sleep(5000)
 botshow("Waiting Owner...")
     for _, plr in pairs(getBot():getPlayers()) do
  if plr.name == "`w"..OwnerName.."``" or plr.name == "`2"..OwnerName.."``" then
