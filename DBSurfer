@@ -1186,27 +1186,46 @@ end
 end
 end
 
+function round(n)
+    return n % 1 > 0.5 and math.ceil(n) or math.floor(n)
+end
+
+function CekTilePack(x,y,num)
+    local count = 0
+    local stack = 0
+    for _,obj in pairs(world:getObjects()) do
+        if round(obj.x / 32) == x and math.floor(obj.y / 32) == y then
+            count = count + obj.count
+            stack = stack + 1
+        end
+    end
+    if stack < 20 and count <= (4000 - num) then
+        return true
+    end
+    return false
+end
+
 function savecuy()
-    atas = getBot():getWorld().name
-    for _, E in ipairs(packitemid) do
-        countpack = inventory:getItemCount(E)
-        for _, tile in pairs(world:getTiles()) do
+atas = getBot():getWorld().name
+    for _,pack in pairs(packitemid) do
+        for _,tile in pairs(world:getTiles()) do
             if tile.fg == IDPatokanPack or tile.bg == IDPatokanPack then
-                getBot():findPath(tile.x - 1, tile.y)
-                sleep(1000)
-                local flag = true
-                while flag do
-                    if inventory:getItemCount(E) ~= 0 then
-                    getBot():sendPacket(2,"action|drop\n|itemID|"..E)
-                    getBot():sendPacket(2,"action|dialog_return\ndialog_name|drop_item\nitemID|"..E.."|\ncount|"..countpack)
-                    sleep(1000)
-                    reconnectpack(atas,tile.x,tile.y)
-                    getBot():findPath(tile.x - 1, tile.y)
-                    sleep(1000)
-                    else
-                        flag = false
+                if CekTilePack(tile.x,tile.y,inventory:getItemCount(pack)) then
+                    while math.floor(world:getLocal().posx / 32) ~= (tile.x - 1) or math.floor(world:getLocal().posy / 32) ~= tile.y do
+                        getBot():findPath(tile.x - 1,tile.y)
+                        sleep(1000)
+                         reconnectpack(atas, tile.x, tile.y)
+                    end
+                    while inventory:getItemCount(pack) > 0 and CekTilePack(tile.x,tile.y,inventory:getItemCount(pack)) do
+                        getBot():sendPacket(2,"action|drop\n|itemID|"..pack)
+                        sleep(1000)
+                        getBot():sendPacket(2,"action|dialog_return\ndialog_name|drop_item\nitemID|"..pack.."|\ncount|"..inventory:getItemCount(pack))
+                        sleep(1000)
+                        reconnectpack(atas, tile.x, tile.y)
                     end
                 end
+            end
+            if inventory:getItemCount(pack) == 0 then
                 break
             end
         end
@@ -1240,31 +1259,47 @@ local kiwar = 0
 return kiwar
 end
 
+function CekTileSeeds(x,y,num)
+    local count = 0
+    local stack = 0
+    for _,obj in pairs(world:getObjects()) do
+        if round(obj.x / 32) == x and math.floor(obj.y / 32) == y then
+            count = count + obj.count
+            stack = stack + 1
+        end
+    end
+    if count <= (3800 - num) then
+        return true
+    end
+    return false
+end
+
 function saveseed()
-    botpack("Saving Seeds")
-    atas = getBot():getWorld().name
-    getBot().auto_collect = false
-    warp(WorldSaveSeed, WorldSaveSeedID)
+getBot().auto_collect = false
+botpack("Saving Seeds")
+atas = getBot():getWorld().name
+        warp(WorldSaveSeed,WorldSaveSeedID)
     for _, tile in pairs(world:getTiles()) do
-        if tile.fg == IDPatokanSeed or tile.bg == IDPatokanSeed then
-           getBot():findPath(tile.x - 1, tile.y)
-           sleep(1000)
-            local flag = true
-            while flag do
-                if inventory:getItemCount(seedid) > 100 then
-                    getBot():sendPacket(2,"action|drop\n|itemID|" .. seedid)
-                    getBot():sendPacket(2,"action|dialog_return\ndialog_name|drop_item\nitemID|" .. seedid .. "|\ncount|100")
+        if tile.fg == IDPatokanSeed or tile.bg == IDPatokanSeed then 
+           if CekTileSeeds(tile.x,tile.y,100) then
+                while math.floor(world:getLocal().pos.x / 32) ~= (tile.x - 1) or math.floor(world:getLocal().pos.y / 32) ~= tile.y do
+                    getBot():findPath(tile.x - 1,tile.y)
+                    sleep(100)
+                    reconnectseed(atas, tile.x, tile.y)
+                end
+                while inventory:getItemCount(seedid) > 100 and CekTileSeeds(tile.x,tile.y,100) do
+                    getBot():sendPacket(2,"action|drop\n|itemID|"..seedid)
+                    sleep(1000)
+                    getBot():sendPacket(2,"action|dialog_return\ndialog_name|drop_item\nitemID|"..seedid.."|\ncount|100")
                     sleep(1000)
                     reconnectseed(atas, tile.x, tile.y)
-                    getBot():findPath(tile.x - 1, tile.y)
-                    sleep(1000)
-                else
-                    flag = false 
                 end
+            end
+        if inventory:getItemCount(seedid) <= 100 then
+                break
             end
         end
     end
-    
     sampah()
     seeddrop = SeedsScanner(seedid)
     botpack("Success Saving Seeds")
@@ -1305,7 +1340,7 @@ end
 end
 
 function rotisan()
-if inventory:getItemCount(seedid) > 160 then
+if inventory:getItemCount(seedid) > 130 then
 saveseed()
 end
 end
