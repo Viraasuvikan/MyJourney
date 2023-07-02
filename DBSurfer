@@ -1282,7 +1282,7 @@ atas = getBot():getWorld().name
     for _, tile in pairs(world:getTiles()) do
         if tile.fg == IDPatokanSeed or tile.bg == IDPatokanSeed then 
            if CekTileSeeds(tile.x,tile.y,100) then
-                while math.floor(world:getLocal().pos.x / 32) ~= (tile.x - 1) or math.floor(world:getLocal().pos.y / 32) ~= tile.y do
+                while math.floor(world:getLocal().posx / 32) ~= (tile.x - 1) or math.floor(world:getLocal().posy / 32) ~= tile.y do
                     getBot():findPath(tile.x - 1,tile.y)
                     sleep(100)
                     reconnectseed(atas, tile.x, tile.y)
