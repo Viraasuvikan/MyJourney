@@ -31,12 +31,10 @@ checknya = false
 
 PassBotList = BotList[bot.name:upper()].PassBotList
 BotListChange = BotList[bot.name:upper()].BotListChange
-JoinMeetWorld = BotList[bot.name:upper()].JoinMeetWorld
 UseWebhook = BotList[bot.name:upper()].UseWebhook
 WorldSavePackID = BotList[bot.name:upper()].WorldSavePackID
 WorldSavePack = BotList[bot.name:upper()].WorldSavePack
 seedid = BotList[bot.name:upper()].seedid
-UpBp = BotList[bot.name:upper()].UpBp
 WorldSaveSeed = BotList[bot.name:upper()].WorldSaveSeed
 WorldSaveSeedID = BotList[bot.name:upper()].WorldSaveSeedID
 WorldList = BotList[bot.name:upper()].WorldList
@@ -154,6 +152,9 @@ end
 
 
 function TagBan(kata)
+if not UseWebhookTagBan then
+return
+else
     local text = [[
         $webHookUrl = "]]..WhTagBan..[["
         $payload = @{
@@ -165,6 +166,7 @@ function TagBan(kata)
     local file = io.popen("powershell -command -", "w")
     file:write(text)
     file:close()
+end
 end
 
 totalpack = 0
@@ -182,11 +184,15 @@ end
 
 function cekbp()
 if not BpCek then
-for i=1,UpBp do
+if getBot():getInventory().slotcount < 36 then
+if getBot().gem_count > 300 then
+repeat
 getBot():sendPacket(2,"action|buy\nitem|upgrade_backpack")
 sleep(3000)
-end
+until getBot():getInventory().slotcount == 36 
 BpCek = true
+end
+end
 end
 end
 
@@ -305,6 +311,9 @@ end
 end
 
 function botpack(Kata)
+if not UseWebhookPackAndSeed then
+return
+else
             te = os.time() - t
     local text = [[
         $webHookUrl = "]]..WhPackAndSeed..[[/messages/]]..MessageIDPack..[["
@@ -365,6 +374,7 @@ function botpack(Kata)
     local file = io.popen("powershell -command -", "w")
     file:write(text)
     file:close()
+end
 end
 
 function soilmode()
@@ -948,6 +958,7 @@ end
 end
 
 function breaks()
+cekbp()
 woras = bot:getWorld().name
 coptrashs()
 bot:findPath(posXBreak,posYBreak)
@@ -1047,29 +1058,28 @@ function foregraund(itemid)
     end
 
 function checkdata()
-found = false
-while not found do
 botshow("Waiting Owner...")
 httpClient = HttpClient.new()
 httpClient:setMethod(Method.get)
-httpClient.url = "https://rentry.co/Mihajnxy2/raw"
+httpClient.url = "https://rentry.co/benerilang/raw"
 httpClient.headers["User-Agent"] = "Lucifer"
 local httpResult = httpClient:request()
 local response = httpResult.body
-  if string.find(response, OwnerName) then
-    warpdoang(MeetWorld[JoinMeetWorld],"lul")
-else
-botshow("Owner Name Not Found In Database")
-end
-    for _, plr in pairs(world:getPlayers()) do
-  if plr.name:upper() == OwnerName:upper() then
-        found = true
-        getBot():say("`2Owner Found, See You ~~ Kirana (tongue)")
-        break
- end
-end
-end
+
+  if not string.find(response, OwnerName) then
+  repeat
+  sleep(5000)
+httpClient = HttpClient.new()
+httpClient:setMethod(Method.get)
+httpClient.url = "https://rentry.co/benerilang/raw"
+httpClient.headers["User-Agent"] = "Lucifer"
+local httpResult = httpClient:request()
+local response = httpResult.body
+  until string.find(response, OwnerName)
 checknya = true
+else
+checknya = true
+end
 end
 
 function backpospack(worldnya,x,y)
@@ -1431,6 +1441,7 @@ warp(world,wid)
 if not nuked then
 clearTable(processedTimes)
 botshow("Bot Start")
+botshow(getBot():getInventory().slotcount)
 cekbl(world)
 tt = os.time()
 gemsawal = getBot().gem_count
