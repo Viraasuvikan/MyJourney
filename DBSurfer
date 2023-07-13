@@ -786,7 +786,7 @@ addBot(GrowidTakeGems,PasswordGrowid)
 warp(rumah,wid:upper())
       getBot().auto_collect = true
       getBot():findPath(0,y)
-for _,rah in pairs(world:getObjects()) do
+for i,rah in pairs(world:getObjects()) do
         if rah.id == 112 then
           while rah.count > 0 do
             for i =1,33 do
