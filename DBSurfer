@@ -385,7 +385,7 @@ local currentDateTime = os.date("!%Y-%m-%dT%H:%M:%SZ")
 local ICON_URL = "https://share.creavite.co/9ugoY1REemeb0nVZ.gif"
 
 local httpClient = HttpClient.new()
-httpClient:setMethod(Method.patch)  -- Menggunakan HTTP method POST
+httpClient:setMethod(Method.patch) 
 
 httpClient.url = WhStatus .."/messages/" .. MessageID
 httpClient.headers["User-Agent"] = "Lucifer"
@@ -422,15 +422,18 @@ local totalseed = "**"..emoji.." Total Seed: "..seeddrop.."  "..cekhasilseed()..
 local totalpacknya = "**<:small_seed_pack:1098848345956560997> Total Pack: "..totalpack.."  "..cekhasilpack().." **"
 
 local deskripsi =  packname .. "\n" .. activity .. "\n" .. namebot .. "\n" .. world .. "\n" .. statusbot .. "\n" .. ping .. "\n" .. gems .. "\n" .. totalseed .. "\n" .. totalpacknya .. "\n\n" ..uptime
+local thumbnailUrl = "https://cdn.discordapp.com/icons/1083626271038263357/8e34c12fcd52fa363eeb14c2e401a26b.png?size=4096"
+local currentDateTime = os.date("!%Y-%m-%dT%H:%M:%SZ")
+local ICON_URL = "https://share.creavite.co/9ugoY1REemeb0nVZ.gif"
 
 local httpClient = HttpClient.new()
-httpClient:setMethod(Method.post)  -- Menggunakan HTTP method POST
+httpClient:setMethod(Method.patch)  -- Menggunakan HTTP method POST
 
-httpClient.url = WhStatus 
+httpClient.url = WhPackAndSeed .."/messages/" .. MessageIDPack
 httpClient.headers["User-Agent"] = "Lucifer"
 httpClient.headers["Content-Type"] = "application/json"  -- Menetapkan tipe konten JSON
 
-local webhookData = '{"embeds": [{"title": "Jopy Rotation Nuron ( Total Buyer: ]]..ceknya()..[[ )", "description": "]]..deskripsi:gsub("\n", "\\n")..[[", "color": 16711680}]}'
+local webhookData = '{"embeds": [{"title": "Jopy Rotation Nuron ( Total Buyer: '..ceknya()..' )", "description": "'..deskripsi:gsub("\n", "\\n")..'", "color": 16711680, "thumbnail": {"url": "'..thumbnailUrl..'"}, "timestamp": "'..currentDateTime..'"}]}'
 httpClient.content = webhookData
 
 -- Mengirimkan HTTP request menggunakan HttpClient dan mendapatkan respons
