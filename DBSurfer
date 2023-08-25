@@ -412,11 +412,11 @@ else
 te = os.time() - t
  local packname = "<:shop_sign:1012590603172847648> **Pack Name: "..pack.."**"
 local activity = "**<:Pickaxe:1109395511661830176> Activity: "..Info.."**"
-local namebot = "**<:bot:1049606018008612874> Name: "..getBot():getLocal().name:upper().." ( "..getBot():getLocal().level.." )**"
+local namebot = "**<:bot:1049606018008612874> Name: "..getBot().name:upper().." ( "..getBot().level.." )**"
 local world = "**<:World:1006699847308546109> World: **||**"..getBot():getWorld().name:upper().."**||"
 local statusbot = "**<a:Online:1063444758783078480> Status: "..status().."**"
-local ping = "**<:Ping:1136942362103402566> Ping: "..getBot():getMs().." Ms**"
-local gems = "**<:gems:1083907540242407547> Gems: "..getBot():getLocal().gems.."**"
+local ping = "**<:Ping:1136942362103402566> Ping: "..getBot():getPing().." Ms**"
+local gems = "**<:gems:1083907540242407547> Gems: "..getBot().gem_count.."**"
 local uptime = "**<:pro_timeout:1100160755287982150>  Up Time**\n**"..math.floor(te/86400).." Days "..math.floor(te%86400/3600).." Hours "..math.floor(te%86400%3600/60).." Minutes "..math.floor(te%86400%3600%60).." Seconds**"
 local totalseed = "**"..emoji.." Total Seed: "..seeddrop.."  "..cekhasilseed().." **"
 local totalpacknya = "**<:small_seed_pack:1098848345956560997> Total Pack: "..totalpack.."  "..cekhasilpack().." **"
@@ -1577,7 +1577,8 @@ function belicuy()
     sleep(1800)
     getBot().auto_collect = false
     botpack("Buying Pack..")
-    warp(WorldSavePack,WorldSavePackID)
+    warp(WorldSavePack[IndexSavePack],WorldSavePackID)
+rara = SeedsScanner(packitemid[1])
     while getBot().gem_count > packgems do
             getBot():sendPacket(2,"action|buy\nitem|".. itemname)
             sleep(4000)
@@ -1695,6 +1696,7 @@ clearTable(processedTimes)
 seedid = detect()
 botshow("Bot Start")
 getBot().collect_range = 4
+getBot().move_interval = 7
 antiToxic()
 tt = os.time()
 gemsawal = getBot().gem_count
